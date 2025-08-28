@@ -100,3 +100,8 @@ client = ["py.typed"]
 
 [tool.coverage.run]
 omit=["across/client/_version.py"]
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["across"]
+namespaces = true
