@@ -1,4 +1,4 @@
-from client import example_module
+from across.client import example_module
 
 
 def test_greetings() -> None:

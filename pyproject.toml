@@ -41,12 +41,12 @@ requires = [
 build-backend = "setuptools.build_meta"
 
 [tool.setuptools_scm]
-write_to = "src/client/_version.py"
+write_to = "across/client/_version.py"
 
 [tool.pytest.ini_options]
 testpaths = [
     "tests",
-    "src",
+    "across",
     "docs",
 ]
 addopts = "--doctest-modules --doctest-glob=*.rst"
@@ -99,4 +99,9 @@ ignore = [
 client = ["py.typed"]
 
 [tool.coverage.run]
-omit=["src/client/_version.py"]
+omit=["across/client/_version.py"]
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["across"]
+namespaces = true
