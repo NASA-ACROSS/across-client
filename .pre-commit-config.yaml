@@ -72,7 +72,6 @@ repos:
         args:
           [
             "--strict", # Use mypy strict mode to enforce type hints
-            "--explicit-package-bases"
           ]
     # Make sure Sphinx can build the documentation while explicitly omitting 
     # notebooks from the docs, so users don't have to wait through the execution 
