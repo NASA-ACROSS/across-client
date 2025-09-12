@@ -2,8 +2,8 @@ import across.sdk.v1 as sdk
 from across.sdk.v1.abstract_credential_storage import CredentialStorage
 from across.sdk.v1.api_client_wrapper import ApiClientWrapper
 
-from ..core.config import config
-from .observatory import Observatory
+from .apis import Observatory
+from .core.config import config
 
 
 class Client:
@@ -20,25 +20,27 @@ class Client:
         self,
         client_id: str | None = None,
         client_secret: str | None = None,
-        credentials: CredentialStorage | None = None,
+        creds_store: CredentialStorage | None = None,
     ):
         """
         Initialize a Client instance for the Across API.
 
+        Credentials can be provided through the following resolution order:
+          1. Direct arguments to the Client constructor.
+          2. Credential Storage interface.
+          3. Environment variables: `ACROSS_SERVER_ID` and `ACROSS_SERVER_SECRET`
         Args:
             client_id (str | None, optional):
-                The client ID used for authentication. Required if
-                `credentials` is not provided.
+                The client ID used for authentication.
             client_secret (str | None, optional):
-                The client secret used for authentication. Required if
-                `credentials` is not provided.
+                The client secret used for authentication.
             credentials (CredentialStorage | None, optional):
                 A credentials storage object that can provide authentication
                 tokens. If provided, it takes precedence over `client_id`
                 and `client_secret`.
         """
         configuration = sdk.Configuration(host=config.HOST, username=client_id, password=client_secret)
-        self.across_client = ApiClientWrapper.get_client(configuration=configuration, creds=credentials)
+        self.across_client = ApiClientWrapper.get_client(configuration=configuration, creds=creds_store)
 
     @property
     def observatory(self) -> Observatory:

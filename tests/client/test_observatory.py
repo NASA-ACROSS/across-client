@@ -1,7 +1,7 @@
 from unittest.mock import MagicMock
 
-from across.client.client import Observatory
-from across.sdk.v1 import Observatory as sdkObservatory
+import across.sdk.v1 as sdk
+from across.client.apis import Observatory
 
 
 class TestObservatory:
@@ -12,7 +12,7 @@ class TestObservatory:
     around the Across SDK by mocking out the underlying API calls.
     """
 
-    def test_get_observatory_should_return_observatory(self, fake_observatory: sdkObservatory) -> None:
+    def test_get_observatory_should_return_observatory(self, fake_observatory: sdk.Observatory) -> None:
         """
         Ensure that `Observatory.get()` returns the expected observatory
         object when the SDK call is mocked.
@@ -39,7 +39,7 @@ class TestObservatory:
         observatory.get("123")
         mock_observatory_api.get_observatory.assert_called_once_with(observatory_id="123")
 
-    def test_get_observatories_should_return_observatories(self, fake_observatory: sdkObservatory) -> None:
+    def test_get_observatories_should_return_observatories(self, fake_observatory: sdk.Observatory) -> None:
         """
         Ensure that `Observatory.get_many()` returns a list of
         observatories when the SDK call is mocked.

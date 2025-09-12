@@ -1,5 +1,5 @@
 from across.client import Client
-from across.client.client import Observatory
+from across.client.apis import Observatory
 from across.sdk.v1.api_client_wrapper import ApiClientWrapper
 
 
