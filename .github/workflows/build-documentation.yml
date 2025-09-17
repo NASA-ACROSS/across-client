@@ -25,6 +25,12 @@ jobs:
       uses: actions/setup-python@v5
       with:
         python-version: '3.11'
+    - name: Set up SSH
+      uses: webfactory/ssh-agent@v0.9.0
+      with:
+        ssh-private-key: |
+          ${{ secrets.ACROSS_TOOLS_SSH_KEY }}
+          ${{ secrets.OPENAPI_SDK_SSH_KEY }}
     - name: Install dependencies
       run: |
         sudo apt-get update

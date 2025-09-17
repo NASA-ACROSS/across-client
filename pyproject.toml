@@ -17,6 +17,8 @@ classifiers = [
 dynamic = ["version"]
 requires-python = ">=3.10"
 dependencies = [
+    "across-tools @ git+ssh://git@github.com/ACROSS-Team/across-tools.git",
+    "across-server-openapi-python @ git+ssh://git@github.com/ACROSS-Team/across-server-openapi-python.git"
 ]
 
 [project.urls]
@@ -25,12 +27,17 @@ dependencies = [
 # On a mac, install optional dependencies with `pip install '.[dev]'` (include the single quotes)
 [project.optional-dependencies]
 dev = [
-    "jupyter", # Clears output from Jupyter notebooks
-    "mypy", # Used for static type checking of files
-    "pre-commit", # Used to run checks before finalizing a git commit
+    "jupyter",           # Clears output from Jupyter notebooks
+    "mypy",              # Used for static type checking of files
+    "pre-commit",        # Used to run checks before finalizing a git commit
     "pytest",
-    "pytest-cov", # Used to report total code coverage
-    "ruff", # Used for static linting of files
+    "pytest-cov",        # Used to report total code coverage
+    "ruff",              # Used for static linting of files
+    "sphinx-autoapi",    # Read the docs
+    "nbsphinx",
+    "sphinx-copybutton",
+    "sphinx-rtd-theme",
+    "types-shapely",
 ]
 
 [build-system]
