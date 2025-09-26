@@ -1,4 +1,5 @@
 from unittest.mock import MagicMock
+from uuid import uuid4
 
 import across.sdk.v1 as sdk
 from across.client.apis import Observatory
@@ -22,7 +23,7 @@ class TestGet:
                 A mocked `sdkObservatory` instance returned by the patched API.
         """
         observatory = Observatory(across_client=MagicMock())
-        result = observatory.get("123")
+        result = observatory.get(uuid4())
         assert result == fake_observatory
 
     def test_should_be_called_with_value(self, mock_observatory_api: MagicMock) -> None:
@@ -35,9 +36,10 @@ class TestGet:
             mock_observatory_api (MagicMock):
                 A mocked instance of `ObservatoryApi`.
         """
+        id = uuid4()
         observatory = Observatory(across_client=MagicMock())
-        observatory.get("123")
-        mock_observatory_api.get_observatory.assert_called_once_with(observatory_id="123")
+        observatory.get(id)
+        mock_observatory_api.get_observatory.assert_called_once_with(observatory_id=id)
 
 
 class TestGetMany:

@@ -2,7 +2,7 @@ import across.sdk.v1 as sdk
 from across.sdk.v1.abstract_credential_storage import CredentialStorage
 from across.sdk.v1.api_client_wrapper import ApiClientWrapper
 
-from .apis import Observatory
+from .apis import Filter, Instrument, Observation, Observatory, Schedule, Telescope
 from .core.config import config
 
 
@@ -42,6 +42,9 @@ class Client:
         configuration = sdk.Configuration(host=config.HOST, username=client_id, password=client_secret)
         self.across_client = ApiClientWrapper.get_client(configuration=configuration, creds=creds_store)
 
+        # configuration.access_token needs to be populated
+        self.across_client.refresh()
+
     @property
     def observatory(self) -> Observatory:
         """
@@ -54,3 +57,68 @@ class Client:
             this Client’s API session.
         """
         return Observatory(self.across_client)
+
+    @property
+    def telescope(self) -> Telescope:
+        """
+        Get an `Telescope` instance for interacting with the API.
+
+        The `Telescope` provides methods to query telescope-related resources in the Across API.
+
+        Returns:
+            Telescope: An initialized `Telescope` client bound to
+            this Client’s API session.
+        """
+        return Telescope(self.across_client)
+
+    @property
+    def instrument(self) -> Instrument:
+        """
+        Get an `Instrument` instance for interacting with the API.
+
+        The `Instrument` provides methods to query instrument-related resources in the Across API.
+
+        Returns:
+            Instrument: An initialized `Instrument` client bound to
+            this Client’s API session.
+        """
+        return Instrument(self.across_client)
+
+    @property
+    def filter(self) -> Filter:
+        """
+        Get an `Filter` instance for interacting with the API.
+
+        The `Filter` provides methods to query filter-related resources in the Across API.
+
+        Returns:
+            Filter: An initialized `Filter` client bound to
+            this Client’s API session.
+        """
+        return Filter(self.across_client)
+
+    @property
+    def schedule(self) -> Schedule:
+        """
+        Get an `Schedule` instance for interacting with the API.
+
+        The `Schedule` provides methods to query schedule-related resources in the Across API.
+
+        Returns:
+            Schedule: An initialized `Schedule` client bound to
+            this Client’s API session.
+        """
+        return Schedule(self.across_client)
+
+    @property
+    def observation(self) -> Observation:
+        """
+        Get an `Observation` instance for interacting with the API.
+
+        The `Observation` provides methods to query observation-related resources in the Across API.
+
+        Returns:
+            Observation: An initialized `Observation` client bound to
+            this Client’s API session.
+        """
+        return Observation(self.across_client)
