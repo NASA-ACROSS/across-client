@@ -39,6 +39,8 @@ class Observation:
 
     def get_many(
         self,
+        page: int | None = None,
+        page_limit: int | None = None,
         external_id: str | None = None,
         schedule_ids: list[UUID | None] | None = None,
         observatory_ids: list[UUID] | None = None,
@@ -63,6 +65,10 @@ class Observation:
         Retrieve multiple observations filtered by optional criteria.
 
         Args:
+            page (int | None):
+                Filter by pagination page
+            page_limit (int | None):
+                Filter by number of records per page
             external_id (str | None):
                 Filter by an external identifier.
             schedule_ids (list[UUID | None] | None):
@@ -107,6 +113,8 @@ class Observation:
                 A list of observations matching the given filters.
         """
         return sdk.ObservationApi(self.across_client).get_observations(
+            page=page,
+            page_limit=page_limit,
             external_id=external_id,
             schedule_ids=schedule_ids,
             observatory_ids=observatory_ids,
