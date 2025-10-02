@@ -1,5 +1,5 @@
 from across.client import Client
-from across.client.apis import Observatory
+from across.client.apis import Filter, Instrument, Observation, Observatory, Schedule, Telescope
 from across.sdk.v1.api_client_wrapper import ApiClientWrapper
 
 
@@ -28,3 +28,43 @@ class TestClient:
         """
         client = Client()
         assert isinstance(client.observatory, Observatory)
+
+    def test_client_telescope_should_return_telescope(self) -> None:
+        """
+        Verify that the `telescope` property of a `Client`
+        returns an instance of the `Telescope` service client.
+        """
+        client = Client()
+        assert isinstance(client.telescope, Telescope)
+
+    def test_client_instrument_should_return_instrument(self) -> None:
+        """
+        Verify that the `instrument` property of a `Client`
+        returns an instance of the `Instrument` service client.
+        """
+        client = Client()
+        assert isinstance(client.instrument, Instrument)
+
+    def test_client_filter_should_return_filter(self) -> None:
+        """
+        Verify that the `filter` property of a `Client`
+        returns an instance of the `Filter` service client.
+        """
+        client = Client()
+        assert isinstance(client.filter, Filter)
+
+    def test_client_schedule_should_return_schedule(self) -> None:
+        """
+        Verify that the `schedule` property of a `Client`
+        returns an instance of the `Schedule` service client.
+        """
+        client = Client()
+        assert isinstance(client.schedule, Schedule)
+
+    def test_client_observation_should_return_observation(self) -> None:
+        """
+        Verify that the `observation` property of a `Client`
+        returns an instance of the `Observation` service client.
+        """
+        client = Client()
+        assert isinstance(client.observation, Observation)
