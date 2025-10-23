@@ -2,7 +2,7 @@ import across.sdk.v1 as sdk
 from across.sdk.v1.abstract_credential_storage import CredentialStorage
 from across.sdk.v1.api_client_wrapper import ApiClientWrapper
 
-from .apis import Filter, Instrument, Observation, Observatory, Schedule, Telescope
+from .apis import Filter, Instrument, Observation, Observatory, Schedule, Telescope, VisibilityCalculator
 from .core.config import config
 
 
@@ -122,3 +122,17 @@ class Client:
             this Client’s API session.
         """
         return Observation(self.across_client)
+   
+    @property
+    def visibility_calculator(self) -> VisibilityCalculator:
+        """
+        Get a `VisibilityCalculator` instance for interacting with the API.
+
+        The `VisibilityCalculator` provides methods to calculate visibility windows
+        for instruments in the Across API.
+
+        Returns:
+            VisibilityCalculator: An initialized `VisibilityCalculator` client bound to
+            this Client’s API session.
+        """
+        return VisibilityCalculator(self.across_client)
