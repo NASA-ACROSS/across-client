@@ -23,7 +23,7 @@ class TestGet:
                 A mocked `sdk.Instrument` instance returned by the patched API.
         """
         instrument = Instrument(across_client=MagicMock())
-        result = instrument.get(uuid4())
+        result = instrument.get(str(uuid4()))
         assert result == fake_instrument
 
     def test_should_be_called_with_value(self, mock_instrument_api: MagicMock) -> None:
@@ -36,7 +36,7 @@ class TestGet:
             mock_instrument_api (MagicMock):
                 A mocked instance of `InstrumentApi`.
         """
-        id = uuid4()
+        id = str(uuid4())
         instrument = Instrument(across_client=MagicMock())
         instrument.get(id)
         mock_instrument_api.get_instrument.assert_called_once_with(instrument_id=id)

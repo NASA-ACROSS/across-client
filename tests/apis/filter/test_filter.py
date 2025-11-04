@@ -23,7 +23,7 @@ class TestGet:
                 A mocked `sdk.Filter` instance returned by the patched API.
         """
         filter = Filter(across_client=MagicMock())
-        result = filter.get(uuid4())
+        result = filter.get(str(uuid4()))
         assert result == fake_filter
 
     def test_should_be_called_with_value(self, mock_filter_api: MagicMock) -> None:
@@ -36,7 +36,7 @@ class TestGet:
             mock_filter_api (MagicMock):
                 A mocked instance of `FilterApi`.
         """
-        id = uuid4()
+        id = str(uuid4())
         filter = Filter(across_client=MagicMock())
         filter.get(id)
         mock_filter_api.get_filter_filter_id_get.assert_called_once_with(filter_id=id)

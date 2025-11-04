@@ -1,5 +1,3 @@
-from uuid import UUID
-
 import across.sdk.v1 as sdk
 from across.sdk.v1.api_client_wrapper import ApiClientWrapper
 
@@ -22,12 +20,12 @@ class Filter:
         """
         self.across_client = across_client
 
-    def get(self, id: UUID) -> sdk.Filter:
+    def get(self, id: str) -> sdk.Filter:
         """
         Retrieve a single Filter by ID.
 
         Args:
-            id (UUID):
+            id (str):
                 The unique identifier of the Filter to retrieve.
 
         Returns:
@@ -41,7 +39,7 @@ class Filter:
         name: str | None = None,
         covers_wavelength: float | None = None,
         instrument_name: str | None = None,
-        instrument_id: UUID | None = None,
+        instrument_id: str | None = None,
     ) -> list[sdk.Filter]:
         """
         Retrieve multiple filters filtered by optional criteria.

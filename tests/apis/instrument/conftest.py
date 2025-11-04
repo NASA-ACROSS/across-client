@@ -18,21 +18,21 @@ def fake_instrument() -> sdk.Instrument:
     tests that require an Instrument.
     """
     return sdk.Instrument(
-        id=uuid4(),
+        id=str(uuid4()),
         created_on=datetime.fromisoformat("2025-07-15T00:00:00"),
         name="Treedome Instrument",
         short_name="TI",
-        telescope=sdk.IDNameSchema(id=uuid4(), name="Treedome Telescope", short_name="TT"),
+        telescope=sdk.IDNameSchema(id=str(uuid4()), name="Treedome Telescope", short_name="TT"),
         filters=[
             sdk.Filter(
-                id=uuid4(),
+                id=str(uuid4()),
                 created_on=datetime.fromisoformat("2025-07-15T00:00:00"),
                 name="Treedome Filter",
                 peak_wavelength=6500,
                 min_wavelength=6000,
                 max_wavelength=7000,
                 is_operational=True,
-                instrument_id=uuid4(),
+                instrument_id=str(uuid4()),
                 sensitivity_depth=24,
                 sensitivity_depth_unit=1,
                 sensitivity_time_seconds=600,

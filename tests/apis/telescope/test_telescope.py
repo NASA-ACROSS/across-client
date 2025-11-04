@@ -23,7 +23,7 @@ class TestGet:
                 A mocked `sdk.Telescope` instance returned by the patched API.
         """
         telescope = Telescope(across_client=MagicMock())
-        result = telescope.get(uuid4())
+        result = telescope.get(str(uuid4()))
         assert result == fake_telescope
 
     def test_should_be_called_with_value(self, mock_telescope_api: MagicMock) -> None:
@@ -36,7 +36,7 @@ class TestGet:
             mock_telescope_api (MagicMock):
                 A mocked instance of `TelescopeApi`.
         """
-        id = uuid4()
+        id = str(uuid4())
         observatory = Telescope(across_client=MagicMock())
         observatory.get(id)
         mock_telescope_api.get_telescope.assert_called_once_with(telescope_id=id)

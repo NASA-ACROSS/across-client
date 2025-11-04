@@ -24,7 +24,7 @@ class TestGet:
                 A mocked `sdk.Schedule` instance returned by the patched API.
         """
         schedule = Schedule(across_client=MagicMock())
-        result = schedule.get(uuid4())
+        result = schedule.get(str(uuid4()))
         assert result == fake_schedule
 
     def test_should_be_called_with_value(self, mock_schedule_api: MagicMock) -> None:
@@ -37,7 +37,7 @@ class TestGet:
             mock_schedule_api (MagicMock):
                 A mocked instance of `ScheduleApi`.
         """
-        id = uuid4()
+        id = str(uuid4())
         schedule = Schedule(across_client=MagicMock())
         schedule.get(id)
         mock_schedule_api.get_schedule.assert_called_once_with(schedule_id=id)
@@ -89,7 +89,7 @@ class TestPost:
         Posted schedule should return uuid (as str)
         """
         schedule_create = sdk.ScheduleCreate(
-            telescope_id=uuid4(),
+            telescope_id=str(uuid4()),
             name="test schedule",
             date_range=sdk.DateRange(
                 begin=datetime.fromisoformat("2025-07-15T00:00:00"),
@@ -102,7 +102,7 @@ class TestPost:
         )
         schedule = Schedule(across_client=MagicMock())
         result = schedule.post(schedule_create)
-        assert isinstance(result, UUID)
+        assert UUID(result)
 
 
 class TestPostMany:
@@ -115,7 +115,7 @@ class TestPostMany:
         Posted Schedules should return a list of uuids
         """
         schedule_create = sdk.ScheduleCreate(
-            telescope_id=uuid4(),
+            telescope_id=str(uuid4()),
             name="test schedule",
             date_range=sdk.DateRange(
                 begin=datetime.fromisoformat("2025-07-15T00:00:00"),
@@ -127,5 +127,7 @@ class TestPostMany:
             observations=[],
         )
         schedule = Schedule(across_client=MagicMock())
-        result = schedule.post_many(sdk.ScheduleCreateMany(schedules=[schedule_create], telescope_id=uuid4()))
+        result = schedule.post_many(
+            sdk.ScheduleCreateMany(schedules=[schedule_create], telescope_id=str(uuid4()))
+        )
         assert isinstance(result, list)
