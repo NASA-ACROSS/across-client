@@ -1,6 +1,5 @@
 from datetime import datetime
 from unittest.mock import MagicMock
-from uuid import uuid4
 
 import pytest
 
@@ -18,10 +17,10 @@ def fake_observation() -> sdk.Observation:
     tests that require an observation.
     """
     return sdk.Observation(
-        id=uuid4(),
+        id="observation-uuid",
         created_on=datetime.fromisoformat("2025-07-15T00:00:00"),
-        instrument_id=uuid4(),
-        schedule_id=uuid4(),
+        instrument_id="instrument-uuid",
+        schedule_id="schedule-uuid",
         object_name="super star",
         pointing_position=sdk.Coordinate(ra=42, dec=42),
         object_position=sdk.Coordinate(ra=42, dec=42),

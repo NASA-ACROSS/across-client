@@ -1,6 +1,5 @@
 from datetime import datetime
 from unittest.mock import MagicMock
-from uuid import uuid4
 
 import pytest
 
@@ -18,10 +17,10 @@ def fake_schedule() -> sdk.Schedule:
     tests that require an schedule.
     """
     return sdk.Schedule(
-        id=uuid4(),
+        id="schedule-uuid",
         created_on=datetime.fromisoformat("2025-07-15T00:00:00"),
-        telescope_id=uuid4(),
-        created_by_id=uuid4(),
+        telescope_id="telescope-uuid",
+        created_by_id="created_by-uuid",
         name="Treedome Telescope Schedule",
         date_range=sdk.DateRange(
             begin=datetime.fromisoformat("2025-07-15T00:00:00"),
@@ -33,10 +32,10 @@ def fake_schedule() -> sdk.Schedule:
         observation_count=1,
         observations=[
             sdk.Observation(
-                id=uuid4(),
+                id="observation-uuid",
                 created_on=datetime.fromisoformat("2025-07-15T00:00:00"),
-                instrument_id=uuid4(),
-                schedule_id=uuid4(),
+                instrument_id="instrument-uuid",
+                schedule_id="schedule-uuid",
                 object_name="super star",
                 pointing_position=sdk.Coordinate(ra=42, dec=42),
                 object_position=sdk.Coordinate(ra=42, dec=42),
@@ -85,8 +84,8 @@ def mock_schedule_api(fake_schedule: sdk.Schedule, fake_page_schedule: sdk.PageS
     mock.get_schedules = MagicMock(return_value=fake_page_schedule)
     mock.get_schedules_history = MagicMock(return_value=fake_page_schedule)
     mock.get_schedule = MagicMock(return_value=fake_schedule)
-    mock.create_schedule = MagicMock(return_value=uuid4())
-    mock.create_many_schedules = MagicMock(return_value=[uuid4()])
+    mock.create_schedule = MagicMock(return_value="schedule-uuid")
+    mock.create_many_schedules = MagicMock(return_value=["schedule-uuid"])
     return mock
 
 

@@ -1,6 +1,5 @@
 from datetime import datetime
 from unittest.mock import MagicMock
-from uuid import uuid4
 
 import pytest
 
@@ -18,14 +17,14 @@ def fake_filter() -> sdk.Filter:
     tests that require an Filter.
     """
     return sdk.Filter(
-        id=uuid4(),
+        id="filter-uuid",
         created_on=datetime.fromisoformat("2025-07-15T00:00:00"),
         name="Treedome Filter",
         peak_wavelength=6500,
         min_wavelength=6000,
         max_wavelength=7000,
         is_operational=True,
-        instrument_id=uuid4(),
+        instrument_id="instrument-uuid",
         sensitivity_depth=24,
         sensitivity_depth_unit=1,
         sensitivity_time_seconds=600,

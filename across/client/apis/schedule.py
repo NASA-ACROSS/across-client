@@ -1,5 +1,4 @@
 from datetime import datetime
-from uuid import UUID
 
 import across.sdk.v1 as sdk
 from across.sdk.v1.api_client_wrapper import ApiClientWrapper
@@ -23,7 +22,7 @@ class Schedule:
         """
         self.across_client = across_client
 
-    def get(self, id: UUID) -> sdk.Schedule:
+    def get(self, id: str) -> sdk.Schedule:
         """
         Retrieve a single Schedule by ID.
 
@@ -47,9 +46,9 @@ class Schedule:
         external_id: str | None = None,
         fidelity: sdk.ScheduleFidelity | None = None,
         created_on: datetime | None = None,
-        observatory_ids: list[UUID | None] | None = None,
+        observatory_ids: list[str | None] | None = None,
         observatory_names: list[str | None] | None = None,
-        telescope_ids: list[UUID | None] | None = None,
+        telescope_ids: list[str | None] | None = None,
         telescope_names: list[str | None] | None = None,
         name: str | None = None,
     ) -> sdk.PageSchedule:
@@ -75,13 +74,13 @@ class Schedule:
                 Filter by schedule fidelity level.
             created_on (datetime | None, optional):
                 Filter by creation timestamp.
-            observatory_ids (list[UUID | None] | None, optional):
+            observatory_ids (list[str | None] | None, optional):
                 Filter by one or more observatory IDs.
-            observatory_names (list[UUID | None] | None, optional):
+            observatory_names (list[str | None] | None, optional):
                 Filter by one or more observatory names.
-            telescope_ids (list[UUID | None] | None, optional):
+            telescope_ids (list[str | None] | None, optional):
                 Filter by one or more telescope IDs.
-            telescope_names (list[UUID | None] | None, optional):
+            telescope_names (list[str | None] | None, optional):
                 Filter by one or more telescope names.
             name (str | None, optional):
                 Filter by schedule name.
@@ -116,9 +115,9 @@ class Schedule:
         external_id: str | None = None,
         fidelity: sdk.ScheduleFidelity | None = None,
         created_on: datetime | None = None,
-        observatory_ids: list[UUID | None] | None = None,
+        observatory_ids: list[str | None] | None = None,
         observatory_names: list[str | None] | None = None,
-        telescope_ids: list[UUID | None] | None = None,
+        telescope_ids: list[str | None] | None = None,
         telescope_names: list[str | None] | None = None,
         name: str | None = None,
     ) -> sdk.PageSchedule:
@@ -142,11 +141,11 @@ class Schedule:
                 Filter by schedule fidelity level.
             created_on (datetime | None, optional):
                 Filter by creation timestamp.
-            observatory_ids (list[UUID | None] | None, optional):
+            observatory_ids (list[str | None] | None, optional):
                 Filter by one or more observatory IDs.
             observatory_names (list[str | None] | None, optional):
                 Filter by one or more observatory names.
-            telescope_ids (list[UUID | None] | None, optional):
+            telescope_ids (list[str | None] | None, optional):
                 Filter by one or more telescope IDs.
             telescope_names (list[str | None] | None, optional):
                 Filter by one or more telescope names.
@@ -188,7 +187,7 @@ class Schedule:
                     fidelity: ScheduleFidelity | None,
                     observations: List[ObservationCreate]
         Returns:
-            schedule_id (str | uuid)
+            schedule_id (str | str)
                 model id for the newly created schedule
         """
         return sdk.ScheduleApi(self.across_client).create_schedule(schedule_create=schedule)

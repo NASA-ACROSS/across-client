@@ -1,6 +1,5 @@
 from datetime import datetime
 from unittest.mock import MagicMock
-from uuid import uuid4
 
 import pytest
 
@@ -18,14 +17,16 @@ def fake_telescope() -> sdk.Telescope:
     tests that require an Telescope.
     """
     return sdk.Telescope(
-        id=uuid4(),
+        id="telescope-uuid",
         created_on=datetime.fromisoformat("2025-07-15T00:00:00"),
         name="Treedome Telescope",
         short_name="TST",
-        observatory=sdk.IDNameSchema(id=uuid4(), name="Treedome Space Observatory", short_name="TST"),
+        observatory=sdk.IDNameSchema(
+            id="observatory-uuid", name="Treedome Space Observatory", short_name="TST"
+        ),
         instruments=[
             sdk.TelescopeInstrument(
-                id=uuid4(),
+                id="instrument-uuid",
                 name="Treedome Instrument",
                 short_name="ti",
                 created_on=datetime.fromisoformat("2025-07-15T00:00:00"),

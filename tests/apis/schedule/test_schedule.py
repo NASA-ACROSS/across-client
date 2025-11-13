@@ -1,6 +1,6 @@
 from datetime import datetime
 from unittest.mock import MagicMock
-from uuid import UUID, uuid4
+from uuid import uuid4
 
 import across.sdk.v1 as sdk
 from across.client.apis import Schedule
@@ -89,7 +89,7 @@ class TestPost:
         Posted schedule should return uuid (as str)
         """
         schedule_create = sdk.ScheduleCreate(
-            telescope_id=uuid4(),
+            telescope_id="telescope-uuid",
             name="test schedule",
             date_range=sdk.DateRange(
                 begin=datetime.fromisoformat("2025-07-15T00:00:00"),
@@ -102,7 +102,7 @@ class TestPost:
         )
         schedule = Schedule(across_client=MagicMock())
         result = schedule.post(schedule_create)
-        assert isinstance(result, UUID)
+        assert isinstance(result, str)
 
 
 class TestPostMany:
@@ -115,7 +115,7 @@ class TestPostMany:
         Posted Schedules should return a list of uuids
         """
         schedule_create = sdk.ScheduleCreate(
-            telescope_id=uuid4(),
+            telescope_id="telescope-uuid",
             name="test schedule",
             date_range=sdk.DateRange(
                 begin=datetime.fromisoformat("2025-07-15T00:00:00"),
@@ -127,5 +127,7 @@ class TestPostMany:
             observations=[],
         )
         schedule = Schedule(across_client=MagicMock())
-        result = schedule.post_many(sdk.ScheduleCreateMany(schedules=[schedule_create], telescope_id=uuid4()))
+        result = schedule.post_many(
+            sdk.ScheduleCreateMany(schedules=[schedule_create], telescope_id="telescope-uuid")
+        )
         assert isinstance(result, list)

@@ -1,6 +1,5 @@
 from datetime import datetime
 from unittest.mock import MagicMock
-from uuid import uuid4
 
 import pytest
 
@@ -18,13 +17,14 @@ def fake_observatory() -> sdk.Observatory:
     tests that require an Observatory.
     """
     return sdk.Observatory(
-        id=uuid4(),
+        id="obseervatory-uuid",
         created_on=datetime.fromisoformat("2025-07-15T00:00:00"),
         name="Treedome Space Observatory",
         short_name="MT",
         type=sdk.ObservatoryType.SPACE_BASED,
-        telescopes=[sdk.IDNameSchema(id=uuid4(), name="Treedome Telescope", short_name="tree")],
+        telescopes=[sdk.IDNameSchema(id="telescope-uuid", name="Treedome Telescope", short_name="tree")],
         reference_url="cartoonnetwork.com",
+        operational=None,
         ephemeris_types=[
             sdk.ObservatoryEphemerisType(
                 ephemeris_type=sdk.EphemerisType.TLE,
