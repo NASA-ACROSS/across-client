@@ -1,5 +1,4 @@
 from datetime import datetime
-from uuid import UUID
 
 import across.sdk.v1 as sdk
 from across.sdk.v1.api_client_wrapper import ApiClientWrapper
@@ -23,7 +22,7 @@ class Telescope:
         """
         self.across_client = across_client
 
-    def get(self, id: UUID) -> sdk.Telescope:
+    def get(self, id: str) -> sdk.Telescope:
         """
         Retrieve a single Telescope by ID.
 
@@ -41,7 +40,7 @@ class Telescope:
         self,
         name: str | None = None,
         instrument_name: str | None = None,
-        instrument_id: UUID | None = None,
+        instrument_id: str | None = None,
         created_on: datetime | None = None,
     ) -> list[sdk.Telescope]:
         """

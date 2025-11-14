@@ -1,5 +1,4 @@
 from datetime import datetime
-from uuid import UUID
 
 import across.sdk.v1 as sdk
 from across.sdk.v1.api_client_wrapper import ApiClientWrapper
@@ -23,7 +22,7 @@ class Observation:
         """
         self.across_client = across_client
 
-    def get(self, id: UUID) -> sdk.Observation:
+    def get(self, id: str) -> sdk.Observation:
         """
         Retrieve a single Observation by ID.
 
@@ -42,10 +41,10 @@ class Observation:
         page: int | None = None,
         page_limit: int | None = None,
         external_id: str | None = None,
-        schedule_ids: list[UUID | None] | None = None,
-        observatory_ids: list[UUID] | None = None,
-        telescope_ids: list[UUID] | None = None,
-        instrument_ids: list[UUID] | None = None,
+        schedule_ids: list[str | None] | None = None,
+        observatory_ids: list[str] | None = None,
+        telescope_ids: list[str] | None = None,
+        instrument_ids: list[str] | None = None,
         status: sdk.ObservationStatus | None = None,
         proposal: str | None = None,
         object_name: str | None = None,
@@ -71,13 +70,13 @@ class Observation:
                 Filter by number of records per page
             external_id (str | None):
                 Filter by an external identifier.
-            schedule_ids (list[UUID | None] | None):
+            schedule_ids (list[str | None] | None):
                 Filter by one or more schedule IDs.
-            observatory_ids (list[UUID] | None):
+            observatory_ids (list[str] | None):
                 Filter by one or more observatory IDs.
-            telescope_ids (list[UUID] | None):
+            telescope_ids (list[str] | None):
                 Filter by one or more telescope IDs.
-            instrument_ids (list[UUID] | None):
+            instrument_ids (list[str] | None):
                 Filter by one or more instrument IDs.
             status (sdk.ObservationStatus | None):
                 Filter by observation status.

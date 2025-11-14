@@ -23,7 +23,7 @@ class TestGet:
                 A mocked `sdkObservatory` instance returned by the patched API.
         """
         observatory = Observatory(across_client=MagicMock())
-        result = observatory.get(uuid4())
+        result = observatory.get(str(uuid4()))
         assert result == fake_observatory
 
     def test_should_be_called_with_value(self, mock_observatory_api: MagicMock) -> None:
@@ -36,7 +36,7 @@ class TestGet:
             mock_observatory_api (MagicMock):
                 A mocked instance of `ObservatoryApi`.
         """
-        id = uuid4()
+        id = str(uuid4())
         observatory = Observatory(across_client=MagicMock())
         observatory.get(id)
         mock_observatory_api.get_observatory.assert_called_once_with(observatory_id=id)

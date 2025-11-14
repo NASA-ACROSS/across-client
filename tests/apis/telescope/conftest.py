@@ -18,14 +18,14 @@ def fake_telescope() -> sdk.Telescope:
     tests that require an Telescope.
     """
     return sdk.Telescope(
-        id=uuid4(),
+        id=str(uuid4()),
         created_on=datetime.fromisoformat("2025-07-15T00:00:00"),
         name="Treedome Telescope",
         short_name="TST",
-        observatory=sdk.IDNameSchema(id=uuid4(), name="Treedome Space Observatory", short_name="TST"),
+        observatory=sdk.IDNameSchema(id=str(uuid4()), name="Treedome Space Observatory", short_name="TST"),
         instruments=[
             sdk.TelescopeInstrument(
-                id=uuid4(),
+                id=str(uuid4()),
                 name="Treedome Instrument",
                 short_name="ti",
                 created_on=datetime.fromisoformat("2025-07-15T00:00:00"),

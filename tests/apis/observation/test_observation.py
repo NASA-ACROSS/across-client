@@ -23,7 +23,7 @@ class TestGet:
                 A mocked `sdk.Observation` instance returned by the patched API.
         """
         observation = Observation(across_client=MagicMock())
-        result = observation.get(uuid4())
+        result = observation.get(str(uuid4()))
         assert result == fake_observation
 
     def test_should_be_called_with_value(self, mock_observation_api: MagicMock) -> None:
@@ -36,7 +36,7 @@ class TestGet:
             mock_observation_api (MagicMock):
                 A mocked instance of `ObservationApi`.
         """
-        id = uuid4()
+        id = str(uuid4())
         observation = Observation(across_client=MagicMock())
         observation.get(id)
         mock_observation_api.get_observation.assert_called_once_with(observation_id=id)

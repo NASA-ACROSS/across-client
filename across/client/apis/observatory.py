@@ -1,5 +1,4 @@
 from datetime import datetime
-from uuid import UUID
 
 import across.sdk.v1 as sdk
 from across.sdk.v1.api_client_wrapper import ApiClientWrapper
@@ -24,12 +23,12 @@ class Observatory:
         """
         self.across_client = across_client
 
-    def get(self, id: UUID) -> sdk.Observatory:
+    def get(self, id: str) -> sdk.Observatory:
         """
         Retrieve a single Observatory by ID.
 
         Args:
-            id (UUID):
+            id (str):
                 The unique identifier of the observatory to retrieve.
 
         Returns:
@@ -43,7 +42,7 @@ class Observatory:
         name: str | None = None,
         type: sdk.ObservatoryType | None = None,
         telescope_name: str | None = None,
-        telescope_id: UUID | None = None,
+        telescope_id: str | None = None,
         ephemeris_type: list[sdk.EphemerisType] | None = None,
         created_on: datetime | None = None,
     ) -> list[sdk.Observatory]:
@@ -57,7 +56,7 @@ class Observatory:
                 Filter by observatory type.
             telescope_name (str | None, optional):
                 Filter by telescope name.
-            telescope_id (UUID | None, optional):
+            telescope_id (str | None, optional):
                 Filter by telescope ID.
             ephemeris_type (list[sdk.EphemerisType] | None, optional):
                 Filter by one or more ephemeris types.

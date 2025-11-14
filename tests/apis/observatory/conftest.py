@@ -18,12 +18,12 @@ def fake_observatory() -> sdk.Observatory:
     tests that require an Observatory.
     """
     return sdk.Observatory(
-        id=uuid4(),
+        id=str(uuid4()),
         created_on=datetime.fromisoformat("2025-07-15T00:00:00"),
         name="Treedome Space Observatory",
         short_name="MT",
         type=sdk.ObservatoryType.SPACE_BASED,
-        telescopes=[sdk.IDNameSchema(id=uuid4(), name="Treedome Telescope", short_name="tree")],
+        telescopes=[sdk.IDNameSchema(id=str(uuid4()), name="Treedome Telescope", short_name="tree")],
         reference_url="cartoonnetwork.com",
         ephemeris_types=[
             sdk.ObservatoryEphemerisType(
@@ -32,6 +32,10 @@ def fake_observatory() -> sdk.Observatory:
                 parameters=sdk.Parameters(sdk.TLEParameters(norad_id=123456, norad_satellite_name="MOCK")),
             )
         ],
+        operational=sdk.NullableDateRange(
+            begin=datetime(2020, 1, 1, 0, 0, 0),
+            end=None,
+        ),
     )
 
 
