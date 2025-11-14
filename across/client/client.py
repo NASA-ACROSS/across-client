@@ -122,7 +122,7 @@ class Client:
             this Client’s API session.
         """
         return Observation(self.across_client)
-   
+
     @property
     def visibility_calculator(self) -> VisibilityCalculator:
         """

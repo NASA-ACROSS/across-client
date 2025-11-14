@@ -12,6 +12,7 @@ class TestVisibilityCalculator:
     These tests validate the behavior of the `VisibilityCalculator` wrapper
     around the Across SDK by mocking out the underlying API calls.
     """
+
     def test_should_return_visibility_windows(
         self,
         fake_instrument_id: str,
@@ -51,7 +52,7 @@ class TestVisibilityCalculator:
             ("dec", 2),
             ("date_range_begin", 3),
             ("date_range_end", 4),
-        ]
+        ],
     )
     def test_should_be_called_with_value(
         self,
@@ -64,7 +65,7 @@ class TestVisibilityCalculator:
     ) -> None:
         """
         Verify that `VisibilityCalculator.calculate_windows()` calls the underlying
-        `ToolsApi.calculate_windows_tools_visibility_calculator_windows_instrument_id_get()` 
+        `ToolsApi.calculate_windows_tools_visibility_calculator_windows_instrument_id_get()`
         with the correct parameters.
 
         Args:
@@ -82,18 +83,19 @@ class TestVisibilityCalculator:
                 A mocked `sdk.DateRange` instance
         """
         vis_calc = VisibilityCalculator(across_client=MagicMock())
-        
+
         # Make a list of inputs that we can index for our asserts later
         fixture_inputs = [
             fake_instrument_id,
             fake_coordinate.ra,
             fake_coordinate.dec,
             fake_date_range.begin,
-            fake_date_range.end
+            fake_date_range.end,
         ]
         vis_calc.calculate_windows(*fixture_inputs)
         assert (
-            mock_visibility_calculator_api
-            .calculate_windows_tools_visibility_calculator_windows_instrument_id_get
-            .call_args.kwargs[input_arg] == fixture_inputs[index]
+            mock_visibility_calculator_api.calculate_windows_tools_visibility_calculator_windows_instrument_id_get.call_args.kwargs[
+                input_arg
+            ]
+            == fixture_inputs[index]
         )

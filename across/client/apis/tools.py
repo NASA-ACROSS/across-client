@@ -6,7 +6,6 @@ from across.sdk.v1.api_client_wrapper import ApiClientWrapper
 
 
 class VisibilityCalculator:
-
     def __init__(self, across_client: ApiClientWrapper):
         """
         Initialize a VisibilityCalculator client.

@@ -14,12 +14,14 @@ def fake_instrument_id() -> str:
     """
     return str(uuid4())
 
+
 @pytest.fixture
 def fake_observatory_id() -> str:
     """
     Create a fake observatory ID for testing
     """
     return str(uuid4())
+
 
 @pytest.fixture
 def fake_coordinate() -> sdk.Coordinate:
@@ -28,15 +30,14 @@ def fake_coordinate() -> sdk.Coordinate:
     """
     return sdk.Coordinate(ra=123.45, dec=-76.54)
 
+
 @pytest.fixture
 def fake_date_range() -> sdk.DateRange:
     """
     Create a fake date range for testing
     """
-    return sdk.DateRange(
-        begin=datetime(2025, 10, 23, 0, 0, 0),
-        end=datetime(2025, 10, 23, 1, 0, 0)
-    )
+    return sdk.DateRange(begin=datetime(2025, 10, 23, 0, 0, 0), end=datetime(2025, 10, 23, 1, 0, 0))
+
 
 @pytest.fixture
 def fake_visibility_window(
@@ -51,12 +52,12 @@ def fake_visibility_window(
             begin=sdk.ConstrainedDate(
                 datetime=fake_date_range.begin,
                 constraint=sdk.ConstraintType.TEST_CONSTRAINT,
-                observatory_id=fake_observatory_id
+                observatory_id=fake_observatory_id,
             ),
             end=sdk.ConstrainedDate(
                 datetime=fake_date_range.end,
                 constraint=sdk.ConstraintType.TEST_CONSTRAINT,
-                observatory_id=fake_observatory_id
+                observatory_id=fake_observatory_id,
             ),
         ),
         max_visibility_duration=60,
@@ -87,14 +88,12 @@ def fake_visibility_result(
 
 
 @pytest.fixture
-def mock_visibility_calculator_api(
-    fake_visibility_result: sdk.VisibilityResult
-) -> MagicMock:
+def mock_visibility_calculator_api(fake_visibility_result: sdk.VisibilityResult) -> MagicMock:
     """
     Mock implementation of the `tools.VisibilityCalculator` API.
 
     This fixture creates a `MagicMock` with preconfigured
-    `calculate_windows` method that returns the `fake_visibility_result`. 
+    `calculate_windows` method that returns the `fake_visibility_result`.
     It simulates API calls without making real network requests.
     """
     mock = MagicMock()
