@@ -1,11 +1,17 @@
 from datetime import datetime
-from uuid import UUID
 
 import across.sdk.v1 as sdk
 from across.sdk.v1.api_client_wrapper import ApiClientWrapper
 
 
 class VisibilityCalculator:
+    """
+    Client for interacting with Visibility Calculator resources in the Across API.
+
+    Provides methods to calculate individual instrument
+    visibility windows by instrument ID.
+    """
+
     def __init__(self, across_client: ApiClientWrapper):
         """
         Initialize a VisibilityCalculator client.
@@ -18,7 +24,7 @@ class VisibilityCalculator:
 
     def calculate_windows(
         self,
-        instrument_id: UUID,
+        instrument_id: str,
         ra: float | int,
         dec: float | int,
         date_range_begin: datetime,

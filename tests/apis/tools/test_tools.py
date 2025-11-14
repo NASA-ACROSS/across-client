@@ -1,5 +1,6 @@
-import pytest
 from unittest.mock import MagicMock
+
+import pytest
 
 import across.sdk.v1 as sdk
 from across.client.apis import VisibilityCalculator
@@ -37,8 +38,8 @@ class TestVisibilityCalculator:
         visibility_calculator = VisibilityCalculator(across_client=MagicMock())
         result = visibility_calculator.calculate_windows(
             fake_instrument_id,
-            fake_coordinate.ra,
-            fake_coordinate.dec,
+            fake_coordinate.ra,  # type: ignore[arg-type]
+            fake_coordinate.dec,  # type: ignore[arg-type]
             fake_date_range.begin,
             fake_date_range.end,
         )
@@ -85,17 +86,17 @@ class TestVisibilityCalculator:
         vis_calc = VisibilityCalculator(across_client=MagicMock())
 
         # Make a list of inputs that we can index for our asserts later
-        fixture_inputs = [
-            fake_instrument_id,
-            fake_coordinate.ra,
-            fake_coordinate.dec,
-            fake_date_range.begin,
-            fake_date_range.end,
-        ]
-        vis_calc.calculate_windows(*fixture_inputs)
+        fixture_inputs = {
+            "instrument_id": fake_instrument_id,
+            "ra": fake_coordinate.ra,
+            "dec": fake_coordinate.dec,
+            "date_range_begin": fake_date_range.begin,
+            "date_range_end": fake_date_range.end,
+        }
+        vis_calc.calculate_windows(**fixture_inputs)  # type: ignore[arg-type]
         assert (
             mock_visibility_calculator_api.calculate_windows_tools_visibility_calculator_windows_instrument_id_get.call_args.kwargs[
                 input_arg
             ]
-            == fixture_inputs[index]
+            == fixture_inputs[input_arg]
         )
