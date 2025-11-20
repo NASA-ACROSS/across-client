@@ -1,5 +1,13 @@
 from across.client import Client
-from across.client.apis import Filter, Instrument, Observation, Observatory, Schedule, Telescope
+from across.client.apis import (
+    Filter,
+    Instrument,
+    Observation,
+    Observatory,
+    Schedule,
+    Telescope,
+    VisibilityCalculator,
+)
 from across.sdk.v1.api_client_wrapper import ApiClientWrapper
 
 
@@ -68,3 +76,11 @@ class TestClient:
         """
         client = Client()
         assert isinstance(client.observation, Observation)
+
+    def test_client_visibility_calculator_should_return_visibility_calculator(self) -> None:
+        """
+        Verify that the `VisibilityCalculator` property of a `Client`
+        returns an instance of the `VisibilityCalculator` service client.
+        """
+        client = Client()
+        assert isinstance(client.visibility_calculator, VisibilityCalculator)
