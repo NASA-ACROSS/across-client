@@ -50,4 +50,4 @@ nircam_observations = client.observations.get_many(
 
 # Contributing
 
-Found a bug? Want to make a feature request? Or create a pull request? Navigate to our [Contributing](CODE_OF_CONDUCT.md) document for instructions!
+Found a bug? Want to make a feature request? Or create a pull request? Navigate to our [Contributing](CONTRIBUTING.md) document for instructions!
