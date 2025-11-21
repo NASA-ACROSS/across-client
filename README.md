@@ -54,6 +54,6 @@ nircam_observations = client.observations.get_many(
 
 Found a bug? Want to make a feature request? Or create a pull request? Navigate to our [Contributing](CONTRIBUTING.md) document for more instructions!
 
-# Other Links
+## Other Links
 
 [Open Science at NASA](https://science.nasa.gov/open-science/)
