@@ -24,7 +24,7 @@ cd across-client
 python -m pip install .
 ```
 
-_Direct `pip` installation coming soon!_
+_Direct `pypi` installation coming soon!_
 
 ## Usage
 
