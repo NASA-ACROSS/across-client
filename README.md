@@ -42,7 +42,7 @@ client = Client(client_id=ACROSS_SERVER_ID, client_secret=ACROSS_SERVER_SECRET)
 
 nircam = client.instrument.get_many(name="nircam")[0]
 
-nircam_observations = client.observations.get_many(
+nircam_observations = client.observation.get_many(
    instrument_ids=[nircam.id],
    status="performed", 
    date_range_begin=datetime(...),
