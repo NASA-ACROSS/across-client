@@ -14,7 +14,6 @@ So you'd like to contribute to the ACROSS Client? Below are some guidelines for 
     - [Requesting a New Feature](#requesting-a-new-feature)
     - [What Happens to my Feature Request?](#what-happens-to-my-feature-request)
   - [Pull Requests](#pull-requests)
-    - [Contributor License Agreement (CLA)](#contributor-license-agreement-cla)
     - [Before starting your Pull Request](#before-starting-your-pull-request)
     - [Creating a Pull Request](#creating-a-pull-request)
     - [What Happens to My Pull Request?](#what-happens-to-my-pull-request)
