@@ -15,6 +15,12 @@ classifiers = [
     "Operating System :: OS Independent",
     "Programming Language :: Python",
 ]
+maintainers = [
+    { name = "Samuel D. Wyatt", email = "samuel.d.wyatt@nasa.gov" },
+    { name = "Jamie A. Kennea", email = "jak51@psu.edu" },
+    { name = "Craig Pellegrino", email = "craig.m.pellegrino@nasa.gov" },
+]
+
 dynamic = ["version"]
 requires-python = ">=3.10"
 dependencies = [
