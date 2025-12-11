@@ -2,7 +2,7 @@
 _commit: v2.0.7
 _src_path: gh:lincc-frameworks/python-project-template
 author_email: samuel.d.wyatt@nasa.gov
-author_name: ACROSS-Team
+author_name: NASA-ACROSS
 create_example_module: true
 custom_install: true
 enforce_style:
@@ -16,7 +16,7 @@ mypy_type_checking: strict
 package_name: client
 project_license: MIT
 project_name: across-client
-project_organization: ACROSS-Team
+project_organization: NASA-ACROSS
 python_versions:
 - '3.10'
 - '3.11'
