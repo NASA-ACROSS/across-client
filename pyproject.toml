@@ -1,28 +1,35 @@
 
 [project]
 name = "across-client"
-license = {file = "LICENSE"}
+license = { file = "LICENSE" }
 readme = "README.md"
 authors = [
-    { name = "ACROSS-Team", email = "samuel.d.wyatt@nasa.gov" }
+    { name = "Samuel D. Wyatt", email = "samuel.d.wyatt@nasa.gov" },
+    { name = "Jamie A. Kennea", email = "jak51@psu.edu" },
+    { name = "Craig Pellegrino", email = "craig.m.pellegrino@nasa.gov" },
 ]
 classifiers = [
     "Development Status :: 4 - Beta",
-    "License :: OSI Approved :: MIT License",
     "Intended Audience :: Developers",
     "Intended Audience :: Science/Research",
     "Operating System :: OS Independent",
     "Programming Language :: Python",
 ]
+maintainers = [
+    { name = "Samuel D. Wyatt", email = "samuel.d.wyatt@nasa.gov" },
+    { name = "Jamie A. Kennea", email = "jak51@psu.edu" },
+    { name = "Craig Pellegrino", email = "craig.m.pellegrino@nasa.gov" },
+]
+
 dynamic = ["version"]
 requires-python = ">=3.10"
 dependencies = [
-    "across-tools @ git+ssh://git@github.com/ACROSS-Team/across-tools.git",
-    "across-server-openapi-python @ git+ssh://git@github.com/ACROSS-Team/across-server-openapi-python.git"
+    "across-tools @ git+ssh://git@github.com/NASA-ACROSS/across-tools.git",
+    "across-server-openapi-python @ git+ssh://git@github.com/NASA-ACROSS/across-server-openapi-python.git",
 ]
 
 [project.urls]
-"Source Code" = "https://github.com/ACROSS-Team/across-client"
+"Source Code" = "https://github.com/NASA-ACROSS/across-client"
 
 # On a mac, install optional dependencies with `pip install '.[dev]'` (include the single quotes)
 [project.optional-dependencies]
@@ -42,7 +49,7 @@ dev = [
 
 [build-system]
 requires = [
-    "setuptools>=62", # Used to build and package the Python project
+    "setuptools>=62",      # Used to build and package the Python project
     "setuptools_scm>=6.2", # Gets release version from git. Makes it available programmatically
 ]
 build-backend = "setuptools.build_meta"
@@ -51,11 +58,7 @@ build-backend = "setuptools.build_meta"
 write_to = "across/client/_version.py"
 
 [tool.pytest.ini_options]
-testpaths = [
-    "tests",
-    "across",
-    "docs",
-]
+testpaths = ["tests", "across", "docs"]
 addopts = "--doctest-modules --doctest-glob=*.rst"
 
 [tool.ruff]
@@ -93,20 +96,20 @@ select = [
     "NPY201",
 ]
 ignore = [
-    "UP006", # Allow non standard library generics in type hints
-    "UP007", # Allow Union in type hints
+    "UP006",  # Allow non standard library generics in type hints
+    "UP007",  # Allow Union in type hints
     "SIM114", # Allow if with same arms
-    "B028", # Allow default warning level
+    "B028",   # Allow default warning level
     "SIM117", # Allow nested with
-    "UP015", # Allow redundant open parameters
-    "UP028", # Allow yield in for loop
+    "UP015",  # Allow redundant open parameters
+    "UP028",  # Allow yield in for loop
 ]
 
 [tool.setuptools.package-data]
 client = ["py.typed"]
 
 [tool.coverage.run]
-omit=["across/client/_version.py"]
+omit = ["across/client/_version.py"]
 
 [tool.setuptools.packages.find]
 where = ["."]
