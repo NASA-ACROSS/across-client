@@ -4,7 +4,7 @@ name = "across-client"
 license = {file = "LICENSE"}
 readme = "README.md"
 authors = [
-    { name = "ACROSS-Team", email = "samuel.d.wyatt@nasa.gov" }
+    { name = "NASA-ACROSS", email = "samuel.d.wyatt@nasa.gov" }
 ]
 classifiers = [
     "Development Status :: 4 - Beta",
@@ -17,12 +17,12 @@ classifiers = [
 dynamic = ["version"]
 requires-python = ">=3.10"
 dependencies = [
-    "across-tools @ git+ssh://git@github.com/ACROSS-Team/across-tools.git",
-    "across-server-openapi-python @ git+ssh://git@github.com/ACROSS-Team/across-server-openapi-python.git"
+    "across-tools @ git+ssh://git@github.com/NASA-ACROSS/across-tools.git",
+    "across-server-openapi-python @ git+ssh://git@github.com/NASA-ACROSS/across-server-openapi-python.git"
 ]
 
 [project.urls]
-"Source Code" = "https://github.com/ACROSS-Team/across-client"
+"Source Code" = "https://github.com/NASA-ACROSS/across-client"
 
 # On a mac, install optional dependencies with `pip install '.[dev]'` (include the single quotes)
 [project.optional-dependencies]
