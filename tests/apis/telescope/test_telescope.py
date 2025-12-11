@@ -58,3 +58,35 @@ class TestGetMany:
         telescope = Telescope(across_client=MagicMock())
         result = telescope.get_many()
         assert result == [fake_telescope]
+
+    def test_should_optionally_return_instrument_footprints(
+        self,
+        mock_telescope_api: MagicMock,
+    ) -> None:
+        """
+        Ensure that `Telescope.get_many()` returns instrument footprints
+        when `include_footprints` is set to `True`.
+        Args:
+            mock_telescope_api (MagicMock):
+                A mocked instance of `TelescopeApi`.
+        """
+        telescope = Telescope(across_client=MagicMock())
+        telescope.get_many(include_footprints=True)
+        call = mock_telescope_api.get_telescopes.call_args_list[0]
+        assert call.kwargs["include_footprints"] is True
+
+    def test_should_optionally_return_instrument_filters(
+        self,
+        mock_telescope_api: MagicMock,
+    ) -> None:
+        """
+        Ensure that `Telescope.get_many()` returns instrument filters
+        when `include_filters` is set to `True`.
+        Args:
+            mock_telescope_api (MagicMock):
+                A mocked instance of `TelescopeApi`.
+        """
+        telescope = Telescope(across_client=MagicMock())
+        telescope.get_many(include_filters=True)
+        call = mock_telescope_api.get_telescopes.call_args_list[0]
+        assert call.kwargs["include_filters"] is True
