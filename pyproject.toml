@@ -24,8 +24,8 @@ maintainers = [
 dynamic = ["version"]
 requires-python = ">=3.10"
 dependencies = [
-    "across-tools",
-    "across-server-openapi-python"
+    "across-tools @ git+https://github.com/NASA-ACROSS/across-tools.git",
+    "across-server-openapi-python @ git+https://github.com/NASA-ACROSS/across-server-openapi-python.git",
 ]
 
 [project.urls]
