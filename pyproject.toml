@@ -113,5 +113,5 @@ omit = ["across/client/_version.py"]
 
 [tool.setuptools.packages.find]
 where = ["."]
-include = ["across"]
+include = ["across*"]
 namespaces = true
