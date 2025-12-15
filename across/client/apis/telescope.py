@@ -42,6 +42,8 @@ class Telescope:
         instrument_name: str | None = None,
         instrument_id: str | None = None,
         created_on: datetime | None = None,
+        include_filters: bool | None = None,
+        include_footprints: bool | None = None,
     ) -> list[sdk.Telescope]:
         """
         Retrieve multiple telescopes filtered by optional criteria.
@@ -55,6 +57,12 @@ class Telescope:
                 Filter by instrument ID.
             created_on (datetime | None, optional):
                 Filter by creation timestamp.
+            include_filters (bool | None, optional):
+                Include telescope instrument filters with the
+                returned values (defaults to False)
+            include_footprints (bool | None, optional):
+                Include telescope instrument footprints with the
+                returned values (defaults to False)
 
         Returns:
             list[sdk.Telescope]:
@@ -65,4 +73,6 @@ class Telescope:
             instrument_name=instrument_name,
             instrument_id=instrument_id,
             created_on=created_on,
+            include_filters=include_filters,
+            include_footprints=include_footprints,
         )

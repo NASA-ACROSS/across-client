@@ -60,6 +60,19 @@ class TestGetMany:
         result = schedule.get_many()
         assert result == fake_page_schedule
 
+    def test_should_optionally_return_observations(self, mock_schedule_api: MagicMock) -> None:
+        """
+        Ensure that `Schedule.get_many()` returns a list of
+        observations when `include_observations` is set to `True`.
+        Args:
+            mock_schedule_api (MagicMock):
+                A mocked instance of `ScheduleApi`.
+        """
+        schedule = Schedule(across_client=MagicMock())
+        schedule.get_many(include_observations=True)
+        call = mock_schedule_api.get_schedules.call_args_list[0]
+        assert call.kwargs["include_observations"] is True
+
 
 class TestGetHistory:
     """
@@ -77,6 +90,19 @@ class TestGetHistory:
         schedule = Schedule(across_client=MagicMock())
         result = schedule.get_history()
         assert result == fake_page_schedule
+
+    def test_should_optionally_return_observations(self, mock_schedule_api: MagicMock) -> None:
+        """
+        Ensure that `Schedule.get_history()` returns a list of
+        observations when `include_observations` is set to `True`.
+        Args:
+            mock_schedule_api (MagicMock):
+                A mocked instance of `ScheduleApi`.
+        """
+        schedule = Schedule(across_client=MagicMock())
+        schedule.get_history(include_observations=True)
+        call = mock_schedule_api.get_schedules_history.call_args_list[0]
+        assert call.kwargs["include_observations"] is True
 
 
 class TestPost:

@@ -51,6 +51,7 @@ class Schedule:
         telescope_ids: list[str | None] | None = None,
         telescope_names: list[str | None] | None = None,
         name: str | None = None,
+        include_observations: bool | None = None,
     ) -> sdk.PageSchedule:
         """
         Retrieve all unique schedules filtered by optional criteria.
@@ -84,6 +85,9 @@ class Schedule:
                 Filter by one or more telescope names.
             name (str | None, optional):
                 Filter by schedule name.
+            include_observations (bool | None, optional):
+                Include observations in returned schedules
+                (defaults to False)
 
         Returns:
             sdk.PageSchedule:
@@ -103,6 +107,7 @@ class Schedule:
             telescope_ids=telescope_ids,
             telescope_names=telescope_names,
             name=name,
+            include_observations=include_observations,
         )
 
     def get_history(
@@ -120,6 +125,7 @@ class Schedule:
         telescope_ids: list[str | None] | None = None,
         telescope_names: list[str | None] | None = None,
         name: str | None = None,
+        include_observations: bool | None = None,
     ) -> sdk.PageSchedule:
         """
         Retrieve all schedules filtered by optional criteria.
@@ -151,6 +157,9 @@ class Schedule:
                 Filter by one or more telescope names.
             name (str | None, optional):
                 Filter by schedule name.
+            include_observations (bool | None, optional):
+                Include observations in returned schedules
+                (defaults to False)
 
         Returns:
             sdk.PageSchedule:
@@ -170,6 +179,7 @@ class Schedule:
             telescope_ids=telescope_ids,
             telescope_names=telescope_names,
             name=name,
+            include_observations=include_observations,
         )
 
     def post(self, schedule: sdk.ScheduleCreate) -> str:
