@@ -26,6 +26,7 @@ jobs:
       run: |
         uv pip install -e .[dev]
         if [ -f requirements.txt ]; then uv pip install -r requirements.txt; fi
+        uv pip install pip # pre-commit requires pip to be installed
     - uses: pre-commit/action@v3.0.1
       with:
         extra_args: --all-files --verbose
