@@ -29,7 +29,7 @@ jobs:
       with:
         python-version: ${{ matrix.python-version }}
     - name: Set up SSH
-      uses: webfactory/ssh-agent@v0.9.0
+      uses: webfactory/ssh-agent@v0.9.1
       with:
         ssh-private-key: |
           ${{ secrets.ACROSS_TOOLS_SSH_KEY }}
