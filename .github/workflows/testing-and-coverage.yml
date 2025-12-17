@@ -20,22 +20,16 @@ jobs:
 
     steps:
     - uses: actions/checkout@v6
+
     - name: Set up Python ${{ matrix.python-version }}
-      uses: actions/setup-python@v5
+      uses: astral-sh/setup-uv@v7
       with:
+        activate-environment: true
         python-version: ${{ matrix.python-version }}
-    - name: Set up SSH
-      uses: webfactory/ssh-agent@v0.9.0
-      with:
-        ssh-private-key: |
-          ${{ secrets.ACROSS_TOOLS_SSH_KEY }}
-          ${{ secrets.OPENAPI_SDK_SSH_KEY }}
     - name: Install dependencies
       run: |
-        sudo apt-get update
-        python -m pip install --upgrade pip
-        pip install -e .[dev]
-        if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+        uv pip install -e .[dev]
+        if [ -f requirements.txt ]; then uv pip install -r requirements.txt; fi
     - name: Run unit tests with pytest
       run: |
         python -m pytest --cov=client --cov-report=xml
@@ -48,24 +42,14 @@ jobs:
     steps:
     - uses: actions/checkout@v6
     - name: Set up Python 3.10
-      uses: actions/setup-python@v5
+      uses: astral-sh/setup-uv@v7
       with:
+        activate-environment: true
         python-version: '3.10'
-    - name: Set up SSH
-      uses: webfactory/ssh-agent@v0.9.0
-      with:
-        ssh-private-key: |
-          ${{ secrets.ACROSS_TOOLS_SSH_KEY }}
-          ${{ secrets.OPENAPI_SDK_SSH_KEY }}
     - name: Install dependencies
       run: |
-        sudo apt-get update
-        python -m pip install --upgrade uv
-        uv venv venv
-        source venv/bin/activate
         uv pip compile --resolution=lowest-direct -o requirements_lowest.txt pyproject.toml
         uv pip install --constraint=requirements_lowest.txt -e .[dev]
     - name: Run unit tests with pytest
       run: |
-        source venv/bin/activate
         python -m pytest

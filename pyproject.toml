@@ -24,8 +24,8 @@ maintainers = [
 dynamic = ["version"]
 requires-python = ">=3.10"
 dependencies = [
-    "across-tools @ git+ssh://git@github.com/NASA-ACROSS/across-tools.git",
-    "across-server-openapi-python @ git+ssh://git@github.com/NASA-ACROSS/across-server-openapi-python.git",
+    "across-tools",
+    "across-server-openapi-python",
 ]
 
 [project.urls]
@@ -113,5 +113,5 @@ omit = ["across/client/_version.py"]
 
 [tool.setuptools.packages.find]
 where = ["."]
-include = ["across"]
+include = ["across*"]
 namespaces = true
