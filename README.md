@@ -24,7 +24,11 @@ cd across-client
 python -m pip install .
 ```
 
-_Direct `pypi` installation coming soon!_
+or the latest released version with `pip`
+
+```sh
+python -m pip install across-client
+```
 
 ## Usage
 
@@ -52,7 +56,7 @@ nircam_observations = client.observation.get_many(
 
 ## Contributing
 
-Found a bug? Want to make a feature request? Or create a pull request? Navigate to our [Contributing](CONTRIBUTING.md) document for more instructions!
+Found a bug? Want to make a feature request? Or create a pull request? Navigate to our [Contributing](https://github.com/NASA-ACROSS/across-client/blob/main/CONTRIBUTING.md) document for more instructions!
 
 ## Other Links
 
