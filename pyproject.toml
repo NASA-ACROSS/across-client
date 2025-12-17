@@ -55,6 +55,7 @@ requires = [
 build-backend = "setuptools.build_meta"
 
 [tool.setuptools_scm]
+local_scheme = "no-local-version"
 write_to = "across/client/_version.py"
 
 [tool.pytest.ini_options]
