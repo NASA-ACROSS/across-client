@@ -538,20 +538,8 @@ Below are some of the more relevant attributes of an ``Observation`` object:
 IVOA compliance
 ^^^^^^^^^^^^^^^
 
-The ACROSS system also ensures IVOA compliance by including IVOA ObsLocTap
-parameters in the ``Observation`` class. These include:
-
-  - t_resolution
-  - em_res_power
-  - o_ucd
-  - pol_states
-  - pol_xel
-  - category
-  - priority
-  - tracking_type
-
-These parameters are ingested for observations when available, depending on the
-source of the data.
+The ACROSS system will also enable IVOA compliance via explicit functionality
+to retrieve observation data in IVOA ObsLocTap format, coming soon.
 
 API Reference
 -------------
