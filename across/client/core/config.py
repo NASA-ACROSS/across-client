@@ -14,7 +14,7 @@ class Config(BaseConfig):
     Core configuratiaon for across.client
     """
 
-    HOST: str = "http://localhost:8000/api/v1"
+    HOST: str = "https://server.prod.across.smce.nasa.gov/api/v1"
     ACROSS_SERVER_ID: str | None = None
     ACROSS_SERVER_SECRET: str | None = None
 
