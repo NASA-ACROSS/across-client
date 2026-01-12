@@ -66,3 +66,48 @@ class VisibilityCalculator:
             hi_res=hi_res,
             min_visibility_duration=min_visibility_duration,
         )
+
+    def calculate_joint_windows(
+        self,
+        instrument_ids: list[str | None],
+        ra: float | int,
+        dec: float | int,
+        date_range_begin: datetime,
+        date_range_end: datetime,
+        hi_res: bool | None = None,
+        min_visibility_duration: int | None = None,
+    ) -> sdk.JointVisibilityResult:
+        """
+        Retrieve joint visibility windows for a target and multiple instruments.
+
+        Args:
+            instrument_ids (list[str]):
+                List of unique identifiers of the instruments in the ACROSS core-server.
+            ra (float | int):
+                The Right Ascension of the target.
+            dec (float | int):
+                The Declination of the target.
+            date_range_begin (datetime):
+                The beginning of the date range to calculate the visibility windows.
+            date_range_end (datetime):
+                The end of the date range to calculate the visibility windows.
+            hi_res (bool | None, optional):
+                Flag to calculate high resolution windows (default is False)
+            min_visibility_duration (int | None, optional):
+                The minimum duration visibility windows to return, in seconds (default is 0).
+
+        Returns:
+            sdk.VisibilityResult:
+                The requested visibility windows.
+        """
+        return sdk.ToolsApi(
+            self.across_client
+        ).calculate_joint_windows_tools_visibility_calculator_windows_get(
+            instrument_ids=instrument_ids,
+            ra=ra,
+            dec=dec,
+            date_range_begin=date_range_begin,
+            date_range_end=date_range_end,
+            hi_res=hi_res,
+            min_visibility_duration=min_visibility_duration,
+        )
