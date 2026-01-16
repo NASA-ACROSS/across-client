@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.1.0](https://github.com/NASA-ACROSS/across-client/compare/v1.0.0...v1.1.0) (2026-01-16)
+
+
+### Features
+
+* add joint visibility calculator functionality ([#44](https://github.com/NASA-ACROSS/across-client/issues/44)) ([188eb30](https://github.com/NASA-ACROSS/across-client/commit/188eb3074bb8d4868e924ba513f04b702a994e77))
+
 ## [1.0.0](https://github.com/NASA-ACROSS/across-client/compare/v1.0.0...v1.0.0) (2026-01-15)
 
 
