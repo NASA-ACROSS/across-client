@@ -16,6 +16,14 @@ def fake_instrument_id() -> str:
 
 
 @pytest.fixture
+def fake_second_instrument_id() -> str:
+    """
+    Create a second fake instrument ID for testing.
+    """
+    return str(uuid4())
+
+
+@pytest.fixture
 def fake_observatory_id() -> str:
     """
     Create a fake observatory ID for testing
@@ -88,17 +96,48 @@ def fake_visibility_result(
 
 
 @pytest.fixture
-def mock_visibility_calculator_api(fake_visibility_result: sdk.VisibilityResult) -> MagicMock:
+def fake_joint_visibility_result(
+    fake_instrument_id: str,
+    fake_second_instrument_id: str,
+    fake_visibility_window: sdk.VisibilityWindow,
+) -> sdk.JointVisibilityResult:
+    """
+    Create a fake `sdk.JointVisibilityResult` instance for testing.
+
+    This fixture returns a fully populated JointVisibilityResult object with
+    mock values for instrument IDs and VisibilityWindows.
+    It is used as a predictable return value in
+    tests that require a JointVisibilityResult.
+    """
+    return sdk.JointVisibilityResult(
+        instrument_ids=[fake_instrument_id, fake_second_instrument_id],
+        visibility_windows=[fake_visibility_window],
+        observatory_visibility_windows={
+            fake_instrument_id: [fake_visibility_window],
+            fake_second_instrument_id: [fake_visibility_window],
+        },
+    )
+
+
+@pytest.fixture
+def mock_visibility_calculator_api(
+    fake_visibility_result: sdk.VisibilityResult,
+    fake_joint_visibility_result: sdk.JointVisibilityResult,
+) -> MagicMock:
     """
     Mock implementation of the `tools.VisibilityCalculator` API.
 
     This fixture creates a `MagicMock` with preconfigured
-    `calculate_windows` method that returns the `fake_visibility_result`.
+    `calculate_windows` and `calculate_joint_windows` methods
+    that return `fake_visibility_result` and `fake_joint_visibility_result`, respectively.
     It simulates API calls without making real network requests.
     """
     mock = MagicMock()
     mock.calculate_windows_tools_visibility_calculator_windows_instrument_id_get = MagicMock(
         return_value=fake_visibility_result
+    )
+    mock.calculate_joint_windows_tools_visibility_calculator_windows_get = MagicMock(
+        return_value=fake_joint_visibility_result
     )
     return mock
 

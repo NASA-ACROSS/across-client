@@ -2,23 +2,26 @@ Visibility Windows
 ========================================================================================
 
 The ``across-client`` contains methods to calculate visibility windows for a given target
-and instrument. These windows correspond to times when the instrument is not blocked by
-any constraints and is therefore able to observe the target. Constraints which the ACROSS
+on a single instrument or across multiple instruments. These windows correspond to times 
+when the instrument (or instruments) is not blocked by any constraints and 
+is therefore able to observe the target. Constraints which the ACROSS
 system tracks include sun angle, moon angle, and Earth limb constraints, South Atlantic
 Anomaly (SAA) constraints, and Altitude-Azimuth constraints.
 
 Overview
 ---------
 
-``across-client`` has a ``client.visibility_calculator`` module, which performs
-visibility window calculations for a single instrument and target using the 
-``calculate_windows()`` method. This method only needs an instrument ID, target
-coordinates, a time range, and a few other optional parameters as user input;
-all information regarding the instrument's constraints is stored and automatically
+``across-client`` has a ``client.visibility_calculator`` module. This module has two 
+methods-- it can perform visibility window calculations for a single instrument and target 
+using the  ``calculate_windows()`` method, and can calculate joint visibility windows across
+multiple instruments with the ``calculate_joint_windows()`` method. 
+These method only needs an instrument ID (or multiple, in the case of joint visibility calculation),
+target coordinates, a time range, and a few other optional parameters as user input;
+all information regarding instrument constraints is stored and automatically
 retrieved from the ACROSS ``core-server``. 
 
 **Note:** the visibility window calculations return time ranges where the target
-is *theoretically* able to be observed by the instrument. However, it does not
+is *theoretically* able to be observed by an instrument. However, it does not
 account for factors such as scheduling conflicts, turnaround times for targets of
 opportunity, or other *feasibility* factors which may otherwise impact a target's 
 observability. Therefore, these windows should be treated as necessary, but not
@@ -27,7 +30,7 @@ complete, conditions toward guaranteeing target observability.
 Calculating Visibility Windows
 --------------------------------
 
-Calculating visibility windows using the ``across-client`` has these general steps:
+Calculating single instrument visibility windows using the ``across-client`` has these general steps:
 
 1. Retrieve the instrument ID from the ``core-server``, if not known
 2. Define some target and observation parameters
@@ -69,6 +72,10 @@ These steps can be shown as follows:
         min_visibility_duration=min_visibility_duration,
     )
 
+Calculating joint visibility windows follows the same process, but the
+``calculate_joint_windows()`` method instead takes a list of instrument IDs 
+as input.
+
 ``calculate_windows()`` Method Parameters
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
@@ -104,16 +111,54 @@ Below is a description of the arguments to the
      - int | None
      - Only return windows longer than this duration, in seconds   
 
+
+``calculate_joint_windows()`` Method Parameters
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Below is a description of the arguments to the 
+``client.visibility_calculator.calculate_joint_windows()`` method:
+
+.. list-table:: ``visibility_calculator.calculate_joint_windows()`` Parameters
+   :widths: 20 25 65
+   :header-rows: 1
+
+   * - Attribute
+     - Type
+     - Description
+   * - ``instrument_ids``
+     - list[str]
+     - A list of UUIDs of the ``Instruments`` from the ACROSS ``core-server``
+   * - ``ra``
+     - float
+     - Right ascension of the target, in degrees
+   * - ``dec``
+     - float
+     - Declination of the target, in degrees
+   * - ``date_range_begin``
+     - datetime
+     - Datetime to begin the visibility calculation
+   * - ``date_range_end``
+     - datetime
+     - Datetime to end the visibility calculation
+   * - ``hi_res``
+     - bool | None
+     - Flag to calculate high-resolution (minute-resolution) windows instead of the default low-resolution (hour-resolution)
+   * - ``min_visibility_duration``
+     - int | None
+     - Only return windows longer than this duration, in seconds   
+
 Using Visibility Windows
 --------------------------------
 
 The ``client.visibility_calculator.calculate_windows()`` method returns a ``VisibilityResult``,
-which contains the instrument ID as well as a list of the calculated windows. Each window,
-in turn, has a  number of attributes.
+which contains the instrument ID as well as a list of the calculated windows. Similarly, the
+``client.visibility_calculator.calculate_joint_windows()`` method returns a ``JointVisibilityResult`` object,
+which contains a list of the instrument IDs and both the calculated windows of joint visibility
+as well as the individual visibility windows for each instrument. 
 
-First off are the ``begin`` and ``end`` attributes, which contain a ``datetime``, a 
-``constraint``, and an ``observatory_id``. These record the times the window begins/ends 
-and the constraint that is violated to lead to the window beginning and ending. Here is
+Each window, in turn, has a  number of attributes. First off are the ``begin`` and ``end`` attributes, 
+which contain a ``datetime``, a ``constraint``, and an ``observatory_id``. These record the times the 
+window begins/ends and the constraint that is violated to lead to the window beginning and ending. Here is
 an example of ``begin`` and ``end``:
 
 .. code-block:: json
@@ -190,6 +235,47 @@ window in a human-readable way:
             window.window.end.datetime,
         )
 
+Example: Listing the start and stop times of joint visibility
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Next we will demonstrate calculating joint visibility of a target between
+multiple instruments, and listing the start and stop times of the windows
+of joint visibility:
+
+.. code-block:: python
+    
+    from across.client import Client
+    from datetime import datetime, timedelta
+
+    client = Client()
+
+    uvot_id = client.instrument.get_many(name="UVOT")[0].id
+    tess_id = client.instrument.get_many(name="TESS")[0].id
+
+    target_ra = 120.0
+    target_dec = -20.0
+    
+    date_range_begin = datetime.now()
+    date_range_end = datetime.now() + timedelta(days=1)
+    hi_res = True
+
+    joint_vis_result = client.visibility_calculator.calculate_joint_windows(
+        instrument_ids=[uvot_id, tess_id],
+        ra=target_ra,
+        dec=target_dec,
+        date_range_begin=date_range_begin,
+        date_range_end=date_range_end,
+        hi_res=hi_res,
+    )
+
+    print("Start time:   End time:   ")
+    for window in joint_vis_result.visibility_windows:
+        print(
+            window.window.begin.datetime,
+            " | ",
+            window.window.end.datetime,
+        )
+
 Calculated Visibility objects
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 Below is a description of the attributes of all objects
@@ -208,6 +294,23 @@ returned from a visibility window calculation:
    * - ``visibility_windows``
      - list[VisibilityWindow]
      - The calculated visibility windows
+
+.. list-table:: JointVisibilityResult Attributes
+   :widths: 20 25 65
+   :header-rows: 1
+
+   * - Attribute
+     - Type
+     - Description
+   * - ``instrument_ids``
+     - list[str]
+     - A list of ACROSS ``core-server`` IDs of the instruments for the calculated windows
+   * - ``visibility_windows``
+     - list[VisibilityWindow]
+     - The calculated joint visibility windows
+   * - ``observatory_visibility_windows``
+     - dict[str, list[VisibilityWindow]]
+     - Dictionary containing the individual visibility windows for each instrument 
 
 .. list-table:: VisibilityWindow Attributes
    :widths: 20 25 65
