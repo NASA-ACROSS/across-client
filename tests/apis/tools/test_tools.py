@@ -4,6 +4,7 @@ import pytest
 
 import across.sdk.v1 as sdk
 from across.client.apis import VisibilityCalculator
+from across.client.apis.tools import CustomJointVisibilityResult, CustomVisibilityResult
 
 
 class TestVisibilityCalculator:
@@ -24,7 +25,7 @@ class TestVisibilityCalculator:
             fake_instrument_id: str,
             fake_coordinate: sdk.Coordinate,
             fake_date_range: sdk.DateRange,
-            fake_visibility_result: sdk.VisibilityResult,
+            fake_visibility_result: CustomVisibilityResult,
         ) -> None:
             """
             Ensure that `VisibilityCalculator.calculate_windows()` returns
@@ -117,7 +118,7 @@ class TestVisibilityCalculator:
             fake_second_instrument_id: str,
             fake_coordinate: sdk.Coordinate,
             fake_date_range: sdk.DateRange,
-            fake_joint_visibility_result: sdk.JointVisibilityResult,
+            fake_joint_visibility_result: CustomJointVisibilityResult,
         ) -> None:
             """
             Ensure that `VisibilityCalculator.calculate_joint_windows()` returns

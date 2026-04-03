@@ -5,10 +5,11 @@ from uuid import uuid4
 import pytest
 
 import across.sdk.v1 as sdk
+from across.client.apis.instrument import CustomInstrument
 
 
 @pytest.fixture
-def fake_instrument() -> sdk.Instrument:
+def fake_instrument() -> CustomInstrument:
     """
     Create a fake `sdk.Instrument` instance for testing.
 
@@ -17,7 +18,7 @@ def fake_instrument() -> sdk.Instrument:
     instruments. It is used as a predictable return value in
     tests that require an Instrument.
     """
-    return sdk.Instrument(
+    return CustomInstrument(
         id=str(uuid4()),
         created_on=datetime.fromisoformat("2025-07-15T00:00:00"),
         name="Treedome Instrument",

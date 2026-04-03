@@ -1,8 +1,8 @@
 from unittest.mock import MagicMock
 from uuid import uuid4
 
-import across.sdk.v1 as sdk
 from across.client.apis import Instrument
+from across.client.apis.instrument import CustomInstrument
 
 
 class TestGet:
@@ -13,7 +13,7 @@ class TestGet:
     around the Across SDK by mocking out the underlying API calls.
     """
 
-    def test_should_return_instrument(self, fake_instrument: sdk.Instrument) -> None:
+    def test_should_return_instrument(self, fake_instrument: CustomInstrument) -> None:
         """
         Ensure that `Instrument.get()` returns the expected instrument
         object when the SDK call is mocked.
@@ -47,7 +47,7 @@ class TestGetMany:
     Unit tests for the `Instrument.get_many`.
     """
 
-    def test_should_return_instruments(self, fake_instrument: sdk.Instrument) -> None:
+    def test_should_return_instruments(self, fake_instrument: CustomInstrument) -> None:
         """
         Ensure that `Instrument.get_many()` returns a list of
         instruments when the SDK call is mocked.
