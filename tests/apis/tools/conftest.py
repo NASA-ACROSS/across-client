@@ -49,7 +49,6 @@ def fake_date_range() -> sdk.DateRange:
 
 @pytest.fixture
 def fake_visibility_window(
-    fake_date_range: sdk.DateRange,
     fake_observatory_id: str,
 ) -> sdk.VisibilityWindow:
     """
@@ -58,12 +57,12 @@ def fake_visibility_window(
     return sdk.VisibilityWindow(
         window=sdk.Window(
             begin=sdk.ConstrainedDate(
-                datetime=fake_date_range.begin,
+                datetime=sdk.Datetime("2025-10-23T00:00:00.00"),
                 constraint=sdk.ConstraintType.TEST_CONSTRAINT,
                 observatory_id=fake_observatory_id,
             ),
             end=sdk.ConstrainedDate(
-                datetime=fake_date_range.end,
+                datetime=sdk.Datetime("2025-10-23T01:00:00.00"),
                 constraint=sdk.ConstraintType.TEST_CONSTRAINT,
                 observatory_id=fake_observatory_id,
             ),
