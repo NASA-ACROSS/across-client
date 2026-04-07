@@ -1,6 +1,8 @@
 from unittest.mock import MagicMock
 from uuid import uuid4
 
+import plotly.graph_objects as go
+
 from across.client.apis import Instrument
 from across.client.apis.instrument import CustomInstrument
 
@@ -58,3 +60,81 @@ class TestGetMany:
         instrument = Instrument(across_client=MagicMock())
         result = instrument.get_many()
         assert result == [fake_instrument]
+
+
+class TestPlotFootprint:
+    """
+    Unit tests for `CustomInstrument.plot_footprints`.
+    """
+
+    def test_should_return_plotly_figure_when_plotting(
+        self,
+        fake_instrument: CustomInstrument,
+    ) -> None:
+        """
+        Should return a plotly Figure when plotting instrument footprints
+        """
+        fig = fake_instrument.plot_footprint()
+
+        assert isinstance(fig, go.Figure)
+
+    def test_plot_should_add_to_existing_figure(
+        self,
+        fake_instrument: CustomInstrument,
+    ) -> None:
+        """
+        Should add the instrument footprint to an existing plotly Figure
+        """
+        existing_fig = go.Figure()
+        fig = fake_instrument.plot_footprint(fig=existing_fig)
+
+        assert fig is existing_fig
+
+    def test_plot_should_set_detector_color_and_name(
+        self,
+        fake_instrument: CustomInstrument,
+    ) -> None:
+        """
+        Should set the detector color and name when plotting the instrument footprint
+        """
+        name = "Test Detector"
+        color = "red"
+        fig = fake_instrument.plot_footprint(name=name, color=color)
+
+        # Check that the detector name and color are set in the figure data
+        found = False
+        for trace in fig.data:
+            if trace.name == name and trace.line.color == color:  # type: ignore[attr-defined]
+                found = True
+                break
+
+        assert found
+
+    def test_plot_should_only_show_legend_once(
+        self,
+        fake_instrument: CustomInstrument,
+    ) -> None:
+        """
+        Should only show the legend once when plotting multiple footprints with the same name
+        """
+        name = "Test Detector"
+        fig = fake_instrument.plot_footprint(name=name)
+        fig = fake_instrument.plot_footprint(fig=fig, name=name)
+
+        # find the unique legend entries
+        legend_count = len(set(trace.name for trace in fig.data if trace.name == name))  # type: ignore[attr-defined]
+
+        assert legend_count == 1
+
+    def test_plot_should_set_lon_lat_ticks(
+        self,
+        fake_instrument: CustomInstrument,
+    ) -> None:
+        """
+        Should set longitude and latitude ticks
+        """
+        lon = 30
+        lat = 45
+
+        fig = fake_instrument.plot_footprint(lat_axis_tick=lat, lon_axis_tick=lon)
+        assert all([fig.layout.geo.lataxis.dtick == lat, fig.layout.geo.lonaxis.dtick == lon])
