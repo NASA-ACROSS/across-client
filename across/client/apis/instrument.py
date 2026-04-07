@@ -66,7 +66,7 @@ class CustomInstrument(sdk.Instrument):
 
             fig = plot_footprint(
                 detectors=[detector.model_dump() for detector in detectors],
-                name=name,
+                name=name if name is not None else self.name,
                 fig=fig,
                 color=color,
             )
