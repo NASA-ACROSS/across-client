@@ -39,6 +39,8 @@ class Telescope:
     def get_many(
         self,
         name: str | None = None,
+        observatory_id: str | None = None,
+        observatory_name: str | None = None,
         instrument_name: str | None = None,
         instrument_id: str | None = None,
         created_on: datetime | None = None,
@@ -51,6 +53,10 @@ class Telescope:
         Args:
             name (str | None, optional):
                 Filter by telescope name.
+            observatory_id (str | None, optional):
+                Filter by observatory ID.
+            observatory_name (str | None, optional):
+                Filter by observatory name.
             instrument_name (str | None, optional):
                 Filter by instrument name.
             instrument_id (str | None, optional):
@@ -70,6 +76,8 @@ class Telescope:
         """
         return sdk.TelescopeApi(self.across_client).get_telescopes(
             name=name,
+            observatory_id=observatory_id,
+            observatory_name=observatory_name,
             instrument_name=instrument_name,
             instrument_id=instrument_id,
             created_on=created_on,
