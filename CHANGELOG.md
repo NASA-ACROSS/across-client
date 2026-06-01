@@ -1,5 +1,19 @@
 # Changelog
 
+## [1.1.0](https://github.com/NASA-ACROSS/across-client/compare/v1.0.0...v1.1.0) (2026-06-01)
+
+
+### Features
+
+* add joint visibility calculator functionality ([#44](https://github.com/NASA-ACROSS/across-client/issues/44)) ([188eb30](https://github.com/NASA-ACROSS/across-client/commit/188eb3074bb8d4868e924ba513f04b702a994e77))
+* add smoke test badge to readme ([#28](https://github.com/NASA-ACROSS/across-client/issues/28)) ([daaafc7](https://github.com/NASA-ACROSS/across-client/commit/daaafc77daa336e3895a6a5f3778b30740cd5479))
+
+
+### Bug Fixes
+
+* removing inclusive language ([#49](https://github.com/NASA-ACROSS/across-client/issues/49)) ([2c75933](https://github.com/NASA-ACROSS/across-client/commit/2c7593388ad3f91a59a858439532368204d725c1))
+* use uv ([#58](https://github.com/NASA-ACROSS/across-client/issues/58)) ([ec2a06c](https://github.com/NASA-ACROSS/across-client/commit/ec2a06c282f880e44a9489a0dd3ec07a79999b7b))
+
 ## [1.0.0](https://github.com/NASA-ACROSS/across-client/compare/v1.0.0...v1.0.0) (2026-01-15)
 
 
