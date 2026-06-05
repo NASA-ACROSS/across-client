@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.1.1](https://github.com/NASA-ACROSS/across-client/compare/v1.1.0...v1.1.1) (2026-06-05)
+
+
+### Bug Fixes
+
+* install uv in pypi publish ([#62](https://github.com/NASA-ACROSS/across-client/issues/62)) ([f444146](https://github.com/NASA-ACROSS/across-client/commit/f444146a0ff5082ee9e8cc24b09af3de094a9b77))
+
 ## [1.1.0](https://github.com/NASA-ACROSS/across-client/compare/v1.0.0...v1.1.0) (2026-06-01)
 
 
