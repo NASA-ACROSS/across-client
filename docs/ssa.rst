@@ -300,6 +300,50 @@ Here is a complete list of arguments for the ``client.instrument.get_many()`` me
      - datetime (optional)
      - Datetime of instrument creation in the ACROSS ``core-server``
 
+Plotting Instrument Footprints
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+``Instrument`` objects contain ``Footprints``, which are polygons
+that represent an instrument's field of view. These footprints
+can be visualized using the ``Instrument.plot_footprint`` method, which
+returns a ``plotly`` figure of the footprint on the sky. These figures can
+be customized through input parameters, or existing figures can be passed into 
+the method:
+
+.. code-block:: python
+
+  from across.client import Client
+
+  client = Client()
+
+  lsstcam = client.instrument.get_many(name="lsstcam")[0]
+  lsstcam.plot_footprint()
+
+Here is a complete list of arguments for the ``Instrument.plot()`` method:
+
+.. list-table:: Instrument.plot() Parameters
+   :widths: 20 15 65
+   :header-rows: 1
+
+   * - Parameter
+     - Type
+     - Description
+   * - ``fig``
+     - plotly.graph_objects.Figure (optional)
+     - An existing plotly Figure to use for the footprint plot
+   * - ``name``
+     - str (optional)
+     - The name of the instrument to use as a legend label
+   * - ``color``
+     - str (optional)
+     - Color to plot the footprint in
+   * - ``lat_axis_tick``
+     - int (optional)
+     - The degrees of latitude to plot ticks on the graph
+   * - ``lon_axis_tick``
+     - int (optional)
+     - The degrees of longitude to plot ticks on the graph
+
 ``Instrument`` Data Structure
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 

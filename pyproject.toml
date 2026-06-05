@@ -23,7 +23,11 @@ maintainers = [
 
 dynamic = ["version"]
 requires-python = ">=3.10"
-dependencies = ["across-tools", "across-server-openapi-python>=1.3.0"]
+dependencies = [
+    "across-tools>=1.6.1",
+    "across-server-openapi-python>=1.3.0",
+    "plotly>=5.21.0",
+]
 
 [project.urls]
 "Source Code" = "https://github.com/NASA-ACROSS/across-client"
@@ -31,6 +35,7 @@ dependencies = ["across-tools", "across-server-openapi-python>=1.3.0"]
 [dependency-groups]
 dev = [
     "jupyter",                   # Clears output from Jupyter notebooks
+    "plotly-stubs>=0.0.6",
     "pre-commit",                # Used to run checks before finalizing a git commit
     { include-group = "lint" },
     { include-group = "test" },
