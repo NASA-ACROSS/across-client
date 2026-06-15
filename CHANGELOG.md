@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.2.0](https://github.com/NASA-ACROSS/across-client/compare/v1.1.1...v1.2.0) (2026-06-15)
+
+
+### Features
+
+* install across-server-openapi-python v1.4.0 ([#64](https://github.com/NASA-ACROSS/across-client/issues/64)) ([b6e2e35](https://github.com/NASA-ACROSS/across-client/commit/b6e2e35ac159993be12bc6dae0a27e9ba8eaf10e))
+
 ## [1.1.1](https://github.com/NASA-ACROSS/across-client/compare/v1.1.0...v1.1.1) (2026-06-05)
 
 
