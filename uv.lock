@@ -51,7 +51,7 @@ types = [
 
 [package.metadata]
 requires-dist = [
-    { name = "across-server-openapi-python", specifier = ">=1.3.0" },
+    { name = "across-server-openapi-python", specifier = ">=1.4.0" },
     { name = "across-tools" },
 ]
 
@@ -87,7 +87,7 @@ types = [
 
 [[package]]
 name = "across-server-openapi-python"
-version = "1.3.0"
+version = "1.4.0"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "pydantic" },
@@ -95,9 +95,9 @@ dependencies = [
     { name = "typing-extensions" },
     { name = "urllib3" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/78/0e/1216677a4690bf006216ca9f987423371f626331dbf91a1ed9bc6d0f6040/across_server_openapi_python-1.3.0.tar.gz", hash = "sha256:9c9fa2502dc91b7bc3a8fb46631c4e5949374a55ff626b1058a62fdf66d66e35", size = 89637, upload-time = "2026-05-20T17:47:26.771Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/18/22/236101ad0d479cbdeed0ab6daf55f7e3e48fa290ab00c6a1a7fa8b1f922b/across_server_openapi_python-1.4.0.tar.gz", hash = "sha256:ca3760b7a790fc4ba2c0907017e2a2185ae6860607bc5669488294d8572cfa04", size = 98624, upload-time = "2026-06-15T18:13:14.705Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/8a/bc/57daffc6cb827bc8067dd5717e54c7534c79bf18c8f89374e931398dfd1a/across_server_openapi_python-1.3.0-py3-none-any.whl", hash = "sha256:93d0773c1c1c3f5a29afd41b2fd95e09f35ae46b175bb604cef327c781b700a0", size = 211753, upload-time = "2026-05-20T17:47:24.834Z" },
+    { url = "https://files.pythonhosted.org/packages/c2/d3/a03c28aa5cc1794064540b1bfebcf1d815df25b434ce460b5cdd81fab50e/across_server_openapi_python-1.4.0-py3-none-any.whl", hash = "sha256:2fb014f77e64f44ad2f67b0e7cb61497315e323572c55f31d53ae6c4383ffadf", size = 240810, upload-time = "2026-06-15T18:13:13.271Z" },
 ]
 
 [[package]]
