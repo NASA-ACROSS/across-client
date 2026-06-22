@@ -405,6 +405,45 @@ supported through the ``client.observation.get_many()`` method:
     )
     observations = observations_page.items
 
+
+Retrieving Observations That Contain a Point
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+In many scientific applications, a user may be interested in retrieving all observations that
+contain a specific point on the sky, e.g. a point source transient. This differs from a simple
+cone search because it accounts for the geometry of the instrument's footprint on the sky
+for a particular observation.
+
+The ACROSS client supports retrieving observations that contain a given (RA, dec) point through the
+``client.observation.contains_point()`` method:
+
+Example: Retrieve observations that contain a specific point
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Let's say a user knows of an interesting point source transient and wants to search for
+observations in a particular date and wavelength range that covered that transient's coordinate:
+
+.. code-block:: python
+
+    from across.client import Client
+    from datetime import datetime, timedelta
+
+    last_week = datetime.now() - timedelta(days=7)
+    target_ra = 123.45
+    target_dec = -54.32
+
+    client = Client()
+    observations_page = client.observation.contains_point(
+        ra=target_ra,
+        dec=target_dec,
+        date_range_begin=last_week,
+        bandpass_min=4000,
+        bandpass_max=7000,
+        bandpass_type="angstrom",
+    )
+    observations = observations_page.items
+
+
 Method Parameters
 ^^^^^^^^^^^^^^^^^^
 The ``client.observation.get_many()`` method takes a number of optional parameters as input. 
@@ -480,6 +519,81 @@ These are shown below:
    * - ``depth_unit``
      - str | None
      - Unit for the depth of the ``Observation`` (one of ``ab_mag``, ``vega_mag``, ``flux_erg``, or ``flux_jy``)
+
+
+The ``client.observation.contains_point()`` method takes a similar list of optional parameters.
+However, it requires an RA and Dec. The parameters are are shown below:
+
+.. list-table:: observation.contains_point() Parameters
+   :widths: 20 25 65
+   :header-rows: 1
+
+   * - Attribute
+     - Type
+     - Description
+   * - ``ra``
+     - float
+     - Right Ascension of the point
+   * - ``dec``
+     - float
+     - Declination of the point
+   * - ``page``
+     - int | None
+     - The page of ``Observation`` results to return
+   * - ``page_limit``
+     - int | None
+     - The maximum number of ``Observation`` objects per page to return
+   * - ``external_id``
+     - str | None
+     - Any external ID associated with the ``Observation``
+   * - ``schedule_ids``
+     - list[str] | None
+     - Include only ``Observations`` for ``Schedules`` with these IDs
+   * - ``observatory_ids``
+     - list[str] | None
+     - Include only ``Observations`` for ``Instruments`` on ``Telescopes`` belonging to the ``Observatories`` with these IDs
+   * - ``telescope_ids``
+     - list[str] | None
+     - Include only ``Observations`` for ``Instruments`` on ``Telescopes`` with these IDs   
+   * - ``instrument_ids``
+     - list[str] | None
+     - Include only ``Observations`` for ``Instruments`` with these IDs  
+   * - ``status``
+     - str | None
+     - ``Observation`` status (``planned``, ``scheduled``, ``unscheduled``, ``performed``, or ``aborted``) 
+   * - ``proposal``
+     - str | None
+     - Any external proposal name under which this ``Observation`` was submitted
+   * - ``object_name``
+     - str | None
+     - Name of target object, if it exists  
+   * - ``date_range_begin``
+     - datetime | None
+     - Datetime for ``Observations`` beginning on or after this date
+   * - ``date_range_end``
+     - datetime | None
+     - Datetime for ``Observations`` ending before or on this date
+   * - ``bandpass_min``
+     - float | None
+     - Minimum wavelength of bandpass for the ``Observation`` (in Angstroms)
+   * - ``bandpass_max``
+     - float | None
+     - Maximum wavelength of bandpass for the ``Observation`` (in Angstroms)
+   * - ``bandpass_type``
+     - str | None
+     - Unit of ``bandpass_min`` and ``bandpass_max`` (one of ``angstrom``, ``nm``, ``um``, or ``mm``)
+   * - ``type``
+     - str | None
+     - Type of the ``Observation`` (one of ``imaging``, ``spectroscopy``, ``timing``, or ``slew``)
+   * - ``depth_value``
+     - float | None
+     - Depth of the ``Observation``, in units of ``depth_unit``
+   * - ``depth_unit``
+     - str | None
+     - Unit for the depth of the ``Observation`` (one of ``ab_mag``, ``vega_mag``, ``flux_erg``, or ``flux_jy``)
+   * - ``include_footprints``
+     - bool | None
+     - Optionally include projected footprints for each observation
 
 ``Observation`` objects
 ^^^^^^^^^^^^^^^^^^^^^^^^

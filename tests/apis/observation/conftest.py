@@ -69,6 +69,7 @@ def mock_observation_api(
     mock = MagicMock()
     mock.get_observations = MagicMock(return_value=fake_page_observation)
     mock.get_observation = MagicMock(return_value=fake_observation)
+    mock.contains_point = MagicMock(return_value=fake_page_observation)
     return mock
 
 
