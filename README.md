@@ -54,6 +54,10 @@ nircam_observations = client.observation.get_many(
 )
 ```
 
+### Running the Client in Development
+
+If you are running a development instance of the ACROSS software system, it is straightforward to point your client installation to your local ACROSS `core-server` instance.  First, follow the server installation instructions [here](https://github.com/NASA-ACROSS/across-server#getting-started). Next, you can repoint your client from the production server to your local instance by setting the environment variable `HOST` to your local server's host and port, typically `http://localhost:8000/api/v1`. Instantiate a new `Client` object and it should now be set up to interface with your local development server!
+
 ## Contributing
 
 Found a bug? Want to make a feature request? Or create a pull request? Navigate to our [Contributing](https://github.com/NASA-ACROSS/across-client/blob/main/CONTRIBUTING.md) document for more instructions!
