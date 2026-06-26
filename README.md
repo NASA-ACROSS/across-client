@@ -54,6 +54,33 @@ nircam_observations = client.observation.get_many(
 )
 ```
 
+### Running the Client in Development
+
+If you are running a development instance of the ACROSS software system, it is straightforward to point your client installation to your local ACROSS `core-server` instance.  
+  1. Follow the server installation instructions [here](https://github.com/NASA-ACROSS/across-server#getting-started). 
+  2.  Copy or duplicate the `.env.example` file in the root directory of this repository and rename it to `.env`. **Important:** This overrides the client's host from the default production server to your local instance by setting a `HOST` variable set to your local server's host and port, which by default is `http://localhost:8000/api/v1`.
+  3. Instantiate a new `Client` object, see the example below, and it should now be set up to interface with your local development server!
+
+Using this local setup, you can test submitting schedules to ACROSS. The local server provides a seeded service account with schedule write permissions. Simply instantiate the client using these credentials and you can post a schedule to your local server:
+```py
+from across.client import Client
+
+
+ACROSS_SERVER_ID = "961fbb3b-dd5e-45ff-a282-41033e43933d"
+ACROSS_SERVER_SECRET = "prehibernationweek"
+
+client = Client(
+   client_id=ACROSS_SERVER_ID,
+   client_secret=ACROSS_SERVER_SECRET,
+)
+created_schedule_id = client.schedule.post(...)
+
+schedule = client.schedule.get(created_schedule_id)
+
+print(schedule)
+```
+For ease of use, these `ACROSS_SERVER_ID`  and `ACROSS_SERVER_SECRET` variables are part of the `.env.example` file.
+
 ## Contributing
 
 Found a bug? Want to make a feature request? Or create a pull request? Navigate to our [Contributing](https://github.com/NASA-ACROSS/across-client/blob/main/CONTRIBUTING.md) document for more instructions!
