@@ -1,4 +1,5 @@
 # across-client
+
 [![Unit test and smoke test](https://github.com/ACROSS-Team/across-client/actions/workflows/smoke-test.yml/badge.svg)](https://github.com/ACROSS-Team/across-client/actions/workflows/smoke-test.yml)
 <!-- [![Template](https://img.shields.io/badge/Template-LINCC%20Frameworks%20Python%20Project%20Template-brightgreen)](https://lincc-ppt.readthedocs.io/en/latest/)
 
@@ -57,11 +58,13 @@ nircam_observations = client.observation.get_many(
 ### Running the Client in Development
 
 If you are running a development instance of the ACROSS software system, it is straightforward to point your client installation to your local ACROSS `core-server` instance.  
-  1. Follow the server installation instructions [here](https://github.com/NASA-ACROSS/across-server#getting-started). 
-  2.  Copy or duplicate the `.env.example` file in the root directory of this repository and rename it to `.env`. **Important:** This overrides the client's host from the default production server to your local instance by setting a `HOST` variable set to your local server's host and port, which by default is `http://localhost:8000/api/v1`.
+
+  1. Follow the server installation instructions [here](https://github.com/NASA-ACROSS/across-server#getting-started).
+  2. Copy or duplicate the `.env.example` file in the root directory of this repository and rename it to `.env`. **Important:** This overrides the client's host from the default production server to your local instance by setting the `ACROSS_SERVER_HOST` and `ACROSS_SERVER_PORT` variables to the local server's host and port, which by default is host: `http://localhost` and port: `8000`.
   3. Instantiate a new `Client` object, see the example below, and it should now be set up to interface with your local development server!
 
 Using this local setup, you can test submitting schedules to ACROSS. The local server provides a seeded service account with schedule write permissions. Simply instantiate the client using these credentials and you can post a schedule to your local server:
+
 ```py
 from across.client import Client
 
@@ -79,6 +82,7 @@ schedule = client.schedule.get(created_schedule_id)
 
 print(schedule)
 ```
+
 For ease of use, these `ACROSS_SERVER_ID`  and `ACROSS_SERVER_SECRET` variables are part of the `.env.example` file.
 
 ## Contributing
@@ -97,7 +101,7 @@ Science Support (ACROSS) System
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
 You may obtain a copy of the License at
-http://www.apache.org/licenses/LICENSE-2.0
+<http://www.apache.org/licenses/LICENSE-2.0>
 
 Unless required by applicable law or agreed to in writing, software distributed
 under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR

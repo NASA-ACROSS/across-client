@@ -39,7 +39,9 @@ class Client:
                 tokens. If provided, it takes precedence over `client_id`
                 and `client_secret`.
         """
-        configuration = sdk.Configuration(host=config.HOST, username=client_id, password=client_secret)
+        configuration = sdk.Configuration(
+            host=config.ACROSS_SERVER_URL, username=client_id, password=client_secret
+        )
         self.across_client = ApiClientWrapper.get_client(configuration=configuration, creds=creds_store)
 
         # configuration.access_token needs to be populated
