@@ -1,5 +1,18 @@
 # Changelog
 
+## [1.3.0](https://github.com/NASA-ACROSS/across-client/compare/v1.2.0...v1.3.0) (2026-07-20)
+
+
+### Features
+
+* add observation contains point functionality ([#67](https://github.com/NASA-ACROSS/across-client/issues/67)) ([7a7c60b](https://github.com/NASA-ACROSS/across-client/commit/7a7c60b734451973626cd2636356841cfbfa524b))
+* **observation:** add include_footprints argument to GET methods ([#74](https://github.com/NASA-ACROSS/across-client/issues/74)) ([62b5c22](https://github.com/NASA-ACROSS/across-client/commit/62b5c226f46c65459348e34fea6518405f41cfe9))
+
+
+### Bug Fixes
+
+* use env vars as expected, and consistent var naming ([#71](https://github.com/NASA-ACROSS/across-client/issues/71)) ([89a0086](https://github.com/NASA-ACROSS/across-client/commit/89a008628e4a33d08e1c1d2435670a33b5b2bce7))
+
 ## [1.2.0](https://github.com/NASA-ACROSS/across-client/compare/v1.1.1...v1.2.0) (2026-06-15)
 
 
