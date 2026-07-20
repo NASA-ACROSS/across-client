@@ -22,19 +22,23 @@ class Observation:
         """
         self.across_client = across_client
 
-    def get(self, id: str) -> sdk.Observation:
+    def get(self, id: str, include_footprints: bool | None = None) -> sdk.Observation:
         """
         Retrieve a single Observation by ID.
 
         Args:
             id (str):
                 The unique identifier of the Observation to retrieve.
+            include_footprints (bool | None):
+                Optionally include footprint of the observation.
 
         Returns:
             sdk.Observation:
                 The requested Observation object.
         """
-        return sdk.ObservationApi(self.across_client).get_observation(observation_id=id)
+        return sdk.ObservationApi(self.across_client).get_observation(
+            observation_id=id, include_footprints=include_footprints
+        )
 
     def get_many(
         self,
@@ -59,6 +63,7 @@ class Observation:
         type: sdk.ObservationType | None = None,
         depth_value: float | None = None,
         depth_unit: sdk.DepthUnit | None = None,
+        include_footprints: bool | None = None,
     ) -> sdk.PageObservation:
         """
         Retrieve multiple observations filtered by optional criteria.
@@ -106,6 +111,8 @@ class Observation:
                 Sensitivity or depth threshold value.
             depth_unit (sdk.DepthUnit | None):
                 Unit for `depth_value`.
+            include_footprints (bool | None):
+                Optionally include footprint of the observation.
 
         Returns:
             list[sdk.Observation]:
@@ -133,6 +140,7 @@ class Observation:
             type=type,
             depth_value=depth_value,
             depth_unit=depth_unit,
+            include_footprints=include_footprints,
         )
 
     def contains_point(
