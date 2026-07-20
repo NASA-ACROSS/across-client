@@ -519,6 +519,9 @@ These are shown below:
    * - ``depth_unit``
      - str | None
      - Unit for the depth of the ``Observation`` (one of ``ab_mag``, ``vega_mag``, ``flux_erg``, or ``flux_jy``)
+   * - ``include_footprints``
+     - bool | None
+     - Optionally include projected footprints for each observation
 
 
 The ``client.observation.contains_point()`` method takes a similar list of optional parameters.
@@ -648,6 +651,9 @@ Below are some of the more relevant attributes of an ``Observation`` object:
    * - ``created_by_id``
      - str | None
      - ID of user that created the schedule in the ACROSS ``core-server``
+   * - ``footprint``
+     - list[ObservationFootprint] | None
+     - The footprint of the observation, represented as a list of polygon coordinates projected to the pointing position of the observation
 
 IVOA compliance
 ^^^^^^^^^^^^^^^

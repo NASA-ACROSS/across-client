@@ -41,7 +41,21 @@ class TestGet:
         id = str(uuid4())
         observation = Observation(across_client=MagicMock())
         observation.get(id)
-        mock_observation_api.get_observation.assert_called_once_with(observation_id=id)
+        assert mock_observation_api.get_observation.call_args.kwargs["observation_id"] == id
+
+    def test_should_pass_include_footprints_to_api(self, mock_observation_api: MagicMock) -> None:
+        """
+        Verify that `Observation.get()` passes the optional `include_footprints`
+        argument to the `ObservationApi.get_observation()` method call.
+
+        Args:
+            mock_observation_api (MagicMock):
+                A mocked instance of `ObservationApi`.
+        """
+        id = str(uuid4())
+        observation = Observation(across_client=MagicMock())
+        observation.get(id, include_footprints=True)
+        assert mock_observation_api.get_observation.call_args.kwargs["include_footprints"] is True
 
 
 class TestGetMany:
@@ -60,6 +74,19 @@ class TestGetMany:
         observation = Observation(across_client=MagicMock())
         result = observation.get_many()
         assert result == fake_page_observation
+
+    def test_should_pass_include_footprints_to_api(self, mock_observation_api: MagicMock) -> None:
+        """
+        Verify that `Observation.get_many()` passes the optional `include_footprints`
+        argument to the `ObservationApi.get_observations()` method call.
+
+        Args:
+            mock_observation_api (MagicMock):
+                A mocked instance of `ObservationApi`.
+        """
+        observation = Observation(across_client=MagicMock())
+        observation.get_many(include_footprints=True)
+        assert mock_observation_api.get_observations.call_args.kwargs["include_footprints"] is True
 
 
 class TestContainsPoint:
