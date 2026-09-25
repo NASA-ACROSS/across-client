@@ -276,6 +276,127 @@ of joint visibility:
             window.window.end.datetime,
         )
 
+Plotting Visibility Windows
+--------------------------------
+
+Both ``VisibilityResult`` and ``JointVisibilityResult`` objects can be plotted through the ``VisibilityCalculator`` API, 
+which allows users to visualize the windows of visibility with a ``plotly`` graph. These methods 
+(``client.VisibilityCalculator.plot_visibility_windows`` and ``client.visibility_calculator.plot_joint_visibility_windows``)
+accept multiple parameters in addition to the visibility result, such as the figure width and height as well as an optional offset, to customize the layout. Users may
+also pass in an existing ``plotly`` graph and modify the return for further customization.
+
+Example: Plotting Joint Visibility
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+.. code-block:: python
+
+  from across.client import Client
+  from datetime import datetime, timedelta
+
+  client = Client()
+
+  uvot = client.instrument.get_many(name="UVOT")[0]
+  ixpe = client.instrument.get_many(name="IXPE")[0]
+
+  target_ra = 120.0
+  target_dec = -20.0
+  
+  date_range_begin = datetime.now()
+  date_range_end = datetime.now() + timedelta(days=1)
+  hi_res = True
+
+  joint_vis_result = client.visibility_calculator.calculate_joint_windows(
+      instrument_ids=[uvot.id, ixpe.id],
+      ra=target_ra,
+      dec=target_dec,
+      date_range_begin=date_range_begin,
+      date_range_end=date_range_end,
+      hi_res=hi_res,
+  )
+
+  fig = client.visibility_calculator.plot_joint_visibility_windows(
+    joint_vis_result,
+    observatory_names=[uvot.short_name, ixpe.short_name],
+    begin=date_range_begin,
+    end=date_range_end,
+    width=700,
+    height=1000,
+  )
+  fig.show()
+
+
+``plot`` Method Parameters
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Below are descriptions of the arguments to the 
+``plot_visibility_windows()`` and ``plot_joint_visibility_windows()`` methods on 
+``client.VisibilityCalculator``:
+
+.. list-table:: ``client.visibility_calculator.plot_visibility_windows()`` Parameters
+   :widths: 20 25 65
+   :header-rows: 1
+
+   * - Attribute
+     - Type
+     - Description
+   * - ``visibility_result``
+     - sdk.VisibilityResult
+     - The visibility result containing the windows to plot   
+   * - ``observatory_name``
+     - str | None
+     - The name of the observatory, to be displayed below the windows
+   * - ``begin``
+     - datetime | None
+     - Datetime to set as the beginning of the y-axis range
+   * - ``end``
+     - datetime | None
+     - Datetime to set as the end of the y-axis range
+   * - ``fig``
+     - plotly.graph_objects.Figure | None
+     - An existing ``plotly.graph_objects.Figure``
+   * - ``offset``
+     - int | None
+     - An optional horizontal offset for the plotted windows   
+   * - ``width``
+     - int | None
+     - The plot width, in pixels  
+   * - ``height``
+     - int | None
+     - The plot height, in pixels  
+
+.. list-table:: ``client.visibility_calculator.plot_joint_visibility_windows()`` Parameters
+   :widths: 20 25 65
+   :header-rows: 1
+
+   * - Attribute
+     - Type
+     - Description
+   * - ``joint_visibility_result``
+     - sdk.JointVisibilityResult
+     - The joint visibility result containing the windows to plot   
+   * - ``observatory_names``
+     - list[str] | None
+     - The names of the observatories used in the calculation, 
+       to be displayed below the individual windows
+   * - ``begin``
+     - datetime | None
+     - Datetime to set as the beginning of the y-axis range
+   * - ``end``
+     - datetime | None
+     - Datetime to set as the end of the y-axis range
+   * - ``fig``
+     - plotly.graph_objects.Figure | None
+     - An existing ``plotly.graph_objects.Figure``
+   * - ``offset``
+     - int | None
+     - An optional horizontal offset for the plotted windows   
+   * - ``width``
+     - int | None
+     - The plot width, in pixels  
+   * - ``height``
+     - int | None
+     - The plot height, in pixels
+
 Calculated Visibility objects
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 Below is a description of the attributes of all objects
