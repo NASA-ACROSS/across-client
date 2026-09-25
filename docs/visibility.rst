@@ -279,10 +279,10 @@ of joint visibility:
 Plotting Visibility Windows
 --------------------------------
 
-Both ``VisibilityResult`` and ``JointVisibilityResult`` objects have a ``plot`` 
-method, which allows users to visualize the windows of visibility with a 
-``plotly`` graph. This function accepts multiple parameters, such as the figure 
-width and height as well as an optional offset, to customize the layout. Users may
+Both ``VisibilityResult`` and ``JointVisibilityResult`` objects can be plotted through the ``VisibilityCalculator`` API, 
+which allows users to visualize the windows of visibility with a ``plotly`` graph. These methods 
+(``client.VisibilityCalculator.plot_visibility_windows`` and ``client.visibility_calculator.plot_joint_visibility_windows``)
+accept multiple parameters in addition to the visibility result, such as the figure width and height as well as an optional offset, to customize the layout. Users may
 also pass in an existing ``plotly`` graph and modify the return for further customization.
 
 Example: Plotting Joint Visibility
@@ -296,7 +296,7 @@ Example: Plotting Joint Visibility
   client = Client()
 
   uvot = client.instrument.get_many(name="UVOT")[0]
-  tess = client.instrument.get_many(name="TESS")[0]
+  ixpe = client.instrument.get_many(name="IXPE")[0]
 
   target_ra = 120.0
   target_dec = -20.0
@@ -306,7 +306,7 @@ Example: Plotting Joint Visibility
   hi_res = True
 
   joint_vis_result = client.visibility_calculator.calculate_joint_windows(
-      instrument_ids=[uvot.id, tess.id],
+      instrument_ids=[uvot.id, ixpe.id],
       ra=target_ra,
       dec=target_dec,
       date_range_begin=date_range_begin,
@@ -314,8 +314,9 @@ Example: Plotting Joint Visibility
       hi_res=hi_res,
   )
 
-  fig = joint_vis_result.plot(
-    observatory_names=[uvot.short_name, tess.short_name],
+  fig = client.visibility_calculator.plot_joint_visibility_windows(
+    joint_vis_result,
+    observatory_names=[uvot.short_name, ixpe.short_name],
     begin=date_range_begin,
     end=date_range_end,
     width=700,
@@ -328,15 +329,19 @@ Example: Plotting Joint Visibility
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 Below are descriptions of the arguments to the 
-``VisibilityResult.plot()`` and ``JointVisibilityResult.plot()`` methods:
+``plot_visibility_windows()`` and ``plot_joint_visibility_windows()`` methods on 
+``client.VisibilityCalculator``:
 
-.. list-table:: ``VisibilityResult.plot()`` Parameters
+.. list-table:: ``client.visibility_calculator.plot_visibility_windows()`` Parameters
    :widths: 20 25 65
    :header-rows: 1
 
    * - Attribute
      - Type
      - Description
+   * - ``visibility_result``
+     - sdk.VisibilityResult
+     - The visibility result containing the windows to plot   
    * - ``observatory_name``
      - str | None
      - The name of the observatory, to be displayed below the windows
@@ -359,13 +364,16 @@ Below are descriptions of the arguments to the
      - int | None
      - The plot height, in pixels  
 
-.. list-table:: ``JointVisibilityResult.plot()`` Parameters
+.. list-table:: ``client.visibility_calculator.plot_joint_visibility_windows()`` Parameters
    :widths: 20 25 65
    :header-rows: 1
 
    * - Attribute
      - Type
      - Description
+   * - ``joint_visibility_result``
+     - sdk.JointVisibilityResult
+     - The joint visibility result containing the windows to plot   
    * - ``observatory_names``
      - list[str] | None
      - The names of the observatories used in the calculation, 

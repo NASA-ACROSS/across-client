@@ -3,8 +3,8 @@ from uuid import uuid4
 
 import plotly.graph_objects as go
 
+import across.sdk.v1 as sdk
 from across.client.apis import Instrument
-from across.client.apis.instrument import CustomInstrument
 
 
 class TestGet:
@@ -15,7 +15,7 @@ class TestGet:
     around the Across SDK by mocking out the underlying API calls.
     """
 
-    def test_should_return_instrument(self, fake_instrument: CustomInstrument) -> None:
+    def test_should_return_instrument(self, fake_instrument: sdk.Instrument) -> None:
         """
         Ensure that `Instrument.get()` returns the expected instrument
         object when the SDK call is mocked.
@@ -49,7 +49,7 @@ class TestGetMany:
     Unit tests for the `Instrument.get_many`.
     """
 
-    def test_should_return_instruments(self, fake_instrument: CustomInstrument) -> None:
+    def test_should_return_instruments(self, fake_instrument: sdk.Instrument) -> None:
         """
         Ensure that `Instrument.get_many()` returns a list of
         instruments when the SDK call is mocked.
@@ -64,42 +64,42 @@ class TestGetMany:
 
 class TestPlotFootprint:
     """
-    Unit tests for `CustomInstrument.plot_footprints`.
+    Unit tests for `Instrument.plot_footprint`.
     """
 
     def test_should_return_plotly_figure_when_plotting(
         self,
-        fake_instrument: CustomInstrument,
+        fake_instrument: sdk.Instrument,
     ) -> None:
         """
         Should return a plotly Figure when plotting instrument footprints
         """
-        fig = fake_instrument.plot_footprint()
+        fig = Instrument.plot_footprint(fake_instrument)
 
         assert isinstance(fig, go.Figure)
 
     def test_plot_should_add_to_existing_figure(
         self,
-        fake_instrument: CustomInstrument,
+        fake_instrument: sdk.Instrument,
     ) -> None:
         """
         Should add the instrument footprint to an existing plotly Figure
         """
         existing_fig = go.Figure()
-        fig = fake_instrument.plot_footprint(fig=existing_fig)
+        fig = Instrument.plot_footprint(fake_instrument, fig=existing_fig)
 
         assert fig is existing_fig
 
     def test_plot_should_set_detector_color_and_name(
         self,
-        fake_instrument: CustomInstrument,
+        fake_instrument: sdk.Instrument,
     ) -> None:
         """
         Should set the detector color and name when plotting the instrument footprint
         """
         name = "Test Detector"
         color = "red"
-        fig = fake_instrument.plot_footprint(name=name, color=color)
+        fig = Instrument.plot_footprint(fake_instrument, name=name, color=color)
 
         # Check that the detector name and color are set in the figure data
         found = False
@@ -112,14 +112,14 @@ class TestPlotFootprint:
 
     def test_plot_should_only_show_legend_once(
         self,
-        fake_instrument: CustomInstrument,
+        fake_instrument: sdk.Instrument,
     ) -> None:
         """
         Should only show the legend once when plotting multiple footprints with the same name
         """
         name = "Test Detector"
-        fig = fake_instrument.plot_footprint(name=name)
-        fig = fake_instrument.plot_footprint(fig=fig, name=name)
+        fig = Instrument.plot_footprint(fake_instrument, name=name)
+        fig = Instrument.plot_footprint(fake_instrument, fig=fig, name=name)
 
         # find the unique legend entries
         legend_count = len(set(trace.name for trace in fig.data if trace.name == name))  # type: ignore[attr-defined]
@@ -128,7 +128,7 @@ class TestPlotFootprint:
 
     def test_plot_should_set_lon_lat_ticks(
         self,
-        fake_instrument: CustomInstrument,
+        fake_instrument: sdk.Instrument,
     ) -> None:
         """
         Should set longitude and latitude ticks
@@ -136,5 +136,5 @@ class TestPlotFootprint:
         lon = 30
         lat = 45
 
-        fig = fake_instrument.plot_footprint(lat_axis_tick=lat, lon_axis_tick=lon)
+        fig = Instrument.plot_footprint(fake_instrument, lat_axis_tick=lat, lon_axis_tick=lon)
         assert all([fig.layout.geo.lataxis.dtick == lat, fig.layout.geo.lonaxis.dtick == lon])

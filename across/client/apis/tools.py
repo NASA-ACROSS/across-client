@@ -4,169 +4,7 @@ import plotly.graph_objects as go
 
 import across.sdk.v1 as sdk
 from across.sdk.v1.api_client_wrapper import ApiClientWrapper
-from across.tools.core.plotting import plot_joint_visibility_windows, plot_visibility_windows
-
-
-class CustomVisibilityResult(sdk.VisibilityResult):
-    """
-    Class to extend the sdk.VisibilityResult object to add
-    plotting functionality.
-    """
-
-    def plot(
-        self,
-        observatory_name: str | None = None,
-        begin: datetime | None = None,
-        end: datetime | None = None,
-        fig: go.Figure | None = None,
-        offset: int | float = 0,
-        width: int = 700,
-        height: int = 1000,
-    ) -> go.Figure:
-        """
-        Method to visualize visibility windows using plotly.
-
-        Parameters
-        ----------
-        fig : go.Figure, optional
-            An existing plotly figure to add to, by default None
-        observatory_name: str, optional
-            The name of the observatory for these window, by default None
-        begin: datetime, optional
-            The start datetime to plot, by default None
-        end: datetime, optional
-            The end datetime to plot, by default None
-        offset : int | float, optional
-            The x-axis offset to plot new visibility windows, by default 0
-        width: int, optional
-            The width of the plot, in pixels. Defaults to 700
-        height: int, optional
-            The height of the plot, in pixels. Defaults to 1000
-
-        Returns
-        -------
-        go.Figure
-            The plotly figure containing the footprint plot
-        """
-        if fig is None:
-            fig = go.Figure()
-
-        fig = plot_visibility_windows(
-            visibility_windows=[window.model_dump() for window in self.visibility_windows],
-            observatory_name=observatory_name,
-            fig=fig,
-            offset=offset,
-        )
-
-        fig.update_layout(
-            title="Visibility Windows",
-            yaxis=dict(
-                title="Time (UTC)",
-                range=[end, begin],  # descending time
-                type="date",
-                autorange=False,  # don't resize
-            ),
-            xaxis=dict(
-                title="Visibility Windows",
-                tickvals=[offset],
-                ticktext=[observatory_name if observatory_name is not None else ""],
-            ),
-            width=width,
-            height=height,
-        )
-        return fig
-
-
-class CustomJointVisibilityResult(sdk.JointVisibilityResult):
-    """
-    Class to extend the sdk.JointVisibilityResult object to add
-    plotting functionality.
-    """
-
-    def plot(
-        self,
-        observatory_names: list[str] | None = None,
-        begin: datetime | None = None,
-        end: datetime | None = None,
-        fig: go.Figure | None = None,
-        offset: int | float = 0,
-        width: int = 700,
-        height: int = 1000,
-    ) -> go.Figure:
-        """
-        Plot the resulting joint and single-instrument visibility windows.
-
-        Parameters
-        ----------
-        fig : go.Figure, optional
-            An existing plotly figure to add to, by default None
-        observatory_names: list[str], optional
-            The names of the observatories for these windows, by default None
-        begin: datetime, optional
-            The start datetime to plot, by default None
-        end: datetime, optional
-            The end datetime to plot, by default None
-        offset : int | float, optional
-            The x-axis offset to plot new visibility windows, by default 0
-        width: int, optional
-            The width of the plot, in pixels. Defaults to 700
-        height: int, optional
-            The height of the plot, in pixels. Defaults to 1000
-
-        Returns
-        -------
-        go.Figure
-            The plotly figure containing the footprint plot
-        """
-        if fig is None:
-            fig = go.Figure()
-
-        tickvals = []
-        ticktext = []
-        for i, visibility_windows in enumerate(self.observatory_visibility_windows.values()):
-            if observatory_names is not None:
-                try:
-                    observatory_name = observatory_names[i]
-                except IndexError:
-                    observatory_name = None
-            else:
-                observatory_name = None
-
-            fig = plot_visibility_windows(
-                visibility_windows=[window.model_dump() for window in visibility_windows],
-                observatory_name=observatory_name,
-                fig=fig,
-                offset=offset + i + 1,
-            )
-            tickvals.append(offset + i + 1)
-            ticktext.append(observatory_name)
-
-        min_extent = min(tickvals)
-        max_extent = max(tickvals)
-        fig = plot_joint_visibility_windows(
-            visibility_windows=[window.model_dump() for window in self.visibility_windows],
-            min_extent=min_extent,
-            max_extent=max_extent,
-            fig=fig,
-        )
-
-        fig.update_layout(
-            title="Visibility Windows",
-            yaxis=dict(
-                title="Time (UTC)",
-                range=[end, begin],  # descending time
-                type="date",
-                autorange=False,  # don't resize
-            ),
-            xaxis=dict(
-                title="Visibility Windows",
-                tickvals=tickvals,
-                ticktext=ticktext,
-            ),
-            width=width,
-            height=height,
-        )
-        return fig
+from across.tools.core import plotting as tools_plotting
 
 
 class VisibilityCalculator:
@@ -196,7 +34,7 @@ class VisibilityCalculator:
         date_range_end: datetime,
         hi_res: bool | None = None,
         min_visibility_duration: int | None = None,
-    ) -> CustomVisibilityResult:
+    ) -> sdk.VisibilityResult:
         """
         Retrieve visibility windows for a target and a single instrument.
 
@@ -220,7 +58,7 @@ class VisibilityCalculator:
             sdk.VisibilityResult:
                 The requested visibility windows.
         """
-        tools_result = sdk.ToolsApi(
+        return sdk.ToolsApi(
             self.across_client
         ).calculate_windows_tools_visibility_calculator_windows_instrument_id_get(
             instrument_id=instrument_id,
@@ -232,12 +70,6 @@ class VisibilityCalculator:
             min_visibility_duration=min_visibility_duration,
         )
 
-        result_with_plots = CustomVisibilityResult(
-            instrument_id=tools_result.instrument_id,
-            visibility_windows=tools_result.visibility_windows,
-        )
-        return result_with_plots
-
     def calculate_joint_windows(
         self,
         instrument_ids: list[str | None],
@@ -247,7 +79,7 @@ class VisibilityCalculator:
         date_range_end: datetime,
         hi_res: bool | None = None,
         min_visibility_duration: int | None = None,
-    ) -> CustomJointVisibilityResult:
+    ) -> sdk.JointVisibilityResult:
         """
         Retrieve joint visibility windows for a target and multiple instruments.
 
@@ -268,10 +100,10 @@ class VisibilityCalculator:
                 The minimum duration visibility windows to return, in seconds (default is 0).
 
         Returns:
-            sdk.VisibilityResult:
-                The requested visibility windows.
+            sdk.JointVisibilityResult:
+                The requested joint visibility windows.
         """
-        tools_result = sdk.ToolsApi(
+        return sdk.ToolsApi(
             self.across_client
         ).calculate_joint_windows_tools_visibility_calculator_windows_get(
             instrument_ids=instrument_ids,
@@ -283,9 +115,158 @@ class VisibilityCalculator:
             min_visibility_duration=min_visibility_duration,
         )
 
-        result_with_plots = CustomJointVisibilityResult(
-            instrument_ids=tools_result.instrument_ids,
-            visibility_windows=tools_result.visibility_windows,
-            observatory_visibility_windows=tools_result.observatory_visibility_windows,
+    @staticmethod
+    def plot_visibility_windows(
+        visibility_result: sdk.VisibilityResult,
+        observatory_name: str | None = None,
+        begin: datetime | None = None,
+        end: datetime | None = None,
+        fig: go.Figure | None = None,
+        offset: int | float = 0,
+        width: int = 700,
+        height: int = 1000,
+    ) -> go.Figure:
+        """
+        Method to visualize visibility windows using plotly.
+
+        Parameters
+        ----------
+        visibility_result: sdk.VisibilityResult
+            The visibility result object containing the visibility windows to plot
+        fig : go.Figure, optional
+            An existing plotly figure to add to, by default None
+        observatory_name: str, optional
+            The name of the observatory for these window, by default None
+        begin: datetime, optional
+            The start datetime to plot, by default None
+        end: datetime, optional
+            The end datetime to plot, by default None
+        offset : int | float, optional
+            The x-axis offset to plot new visibility windows, by default 0
+        width: int, optional
+            The width of the plot, in pixels. Defaults to 700
+        height: int, optional
+            The height of the plot, in pixels. Defaults to 1000
+
+        Returns
+        -------
+        go.Figure
+            The plotly figure containing the footprint plot
+        """
+        if fig is None:
+            fig = go.Figure()
+
+        fig = tools_plotting.plot_visibility_windows(
+            visibility_windows=[window.model_dump() for window in visibility_result.visibility_windows],
+            observatory_name=observatory_name,
+            fig=fig,
+            offset=offset,
         )
-        return result_with_plots
+
+        fig.update_layout(
+            title="Visibility Windows",
+            yaxis=dict(
+                title="Time (UTC)",
+                range=[end, begin],  # descending time
+                type="date",
+                autorange=False,  # don't resize
+            ),
+            xaxis=dict(
+                title="Visibility Windows",
+                tickvals=[offset],
+                ticktext=[observatory_name if observatory_name is not None else ""],
+            ),
+            width=width,
+            height=height,
+        )
+        return fig
+
+    @staticmethod
+    def plot_joint_visibility_windows(
+        joint_visibility_result: sdk.JointVisibilityResult,
+        observatory_names: list[str] | None = None,
+        begin: datetime | None = None,
+        end: datetime | None = None,
+        fig: go.Figure | None = None,
+        offset: int | float = 0,
+        width: int = 700,
+        height: int = 1000,
+    ) -> go.Figure:
+        """
+        Plot the resulting joint and single-instrument visibility windows.
+
+        Parameters
+        ----------
+        joint_visibility_result: sdk.JointVisibilityResult
+            The joint visibility result object containing the visibility windows to plot
+        fig : go.Figure, optional
+            An existing plotly figure to add to, by default None
+        observatory_names: list[str], optional
+            The names of the observatories for these windows, by default None
+        begin: datetime, optional
+            The start datetime to plot, by default None
+        end: datetime, optional
+            The end datetime to plot, by default None
+        offset : int | float, optional
+            The x-axis offset to plot new visibility windows, by default 0
+        width: int, optional
+            The width of the plot, in pixels. Defaults to 700
+        height: int, optional
+            The height of the plot, in pixels. Defaults to 1000
+
+        Returns
+        -------
+        go.Figure
+            The plotly figure containing the footprint plot
+        """
+        if fig is None:
+            fig = go.Figure()
+
+        tickvals = []
+        ticktext = []
+        for i, visibility_windows in enumerate(
+            joint_visibility_result.observatory_visibility_windows.values()
+        ):
+            if observatory_names is not None:
+                try:
+                    observatory_name = observatory_names[i]
+                except IndexError:
+                    observatory_name = None
+            else:
+                observatory_name = None
+
+            fig = tools_plotting.plot_visibility_windows(
+                visibility_windows=[window.model_dump() for window in visibility_windows],
+                observatory_name=observatory_name,
+                fig=fig,
+                offset=offset + i + 1,
+            )
+            tickvals.append(offset + i + 1)
+            ticktext.append(observatory_name)
+
+        min_extent = min(tickvals)
+        max_extent = max(tickvals)
+        fig = tools_plotting.plot_joint_visibility_windows(
+            visibility_windows=[window.model_dump() for window in joint_visibility_result.visibility_windows],
+            min_extent=min_extent,
+            max_extent=max_extent,
+            fig=fig,
+        )
+
+        fig.update_layout(
+            title="Visibility Windows",
+            yaxis=dict(
+                title="Time (UTC)",
+                range=[end, begin],  # descending time
+                type="date",
+                autorange=False,  # don't resize
+            ),
+            xaxis=dict(
+                title="Visibility Windows",
+                tickvals=tickvals,
+                ticktext=ticktext,
+            ),
+            width=width,
+            height=height,
+        )
+        return fig

@@ -305,7 +305,7 @@ Plotting Instrument Footprints
 
 ``Instrument`` objects contain ``Footprints``, which are polygons
 that represent an instrument's field of view. These footprints
-can be visualized using the ``Instrument.plot_footprint`` method, which
+can be visualized using the ``InstrumentAPI`` via the ``InstrumentAPI.plot_footprint`` method, which
 returns a ``plotly`` figure of the footprint on the sky. These figures can
 be customized through input parameters, or existing figures can be passed into 
 the method:
@@ -317,17 +317,20 @@ the method:
   client = Client()
 
   lsstcam = client.instrument.get_many(name="lsstcam")[0]
-  lsstcam.plot_footprint()
+  client.instrument.plot_footprint(lsstcam)
 
-Here is a complete list of arguments for the ``Instrument.plot()`` method:
+Here is a complete list of arguments for the Instrument API ``plot_footprint()`` method:
 
-.. list-table:: Instrument.plot() Parameters
+.. list-table:: client.Instrument.plot_footprint() Parameters
    :widths: 20 15 65
    :header-rows: 1
 
    * - Parameter
      - Type
      - Description
+   * - ``instrument``
+     - sdk.Instrument
+     - The ``Instrument`` object to plot the footprint of
    * - ``fig``
      - plotly.graph_objects.Figure (optional)
      - An existing plotly Figure to use for the footprint plot

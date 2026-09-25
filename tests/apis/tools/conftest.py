@@ -5,7 +5,6 @@ from uuid import uuid4
 import pytest
 
 import across.sdk.v1 as sdk
-from across.client.apis.tools import CustomJointVisibilityResult, CustomVisibilityResult
 
 
 @pytest.fixture
@@ -81,7 +80,7 @@ def fake_visibility_window(
 def fake_visibility_result(
     fake_instrument_id: str,
     fake_visibility_window: sdk.VisibilityWindow,
-) -> CustomVisibilityResult:
+) -> sdk.VisibilityResult:
     """
     Create a fake `sdk.VisibilityResult` instance for testing.
 
@@ -90,7 +89,7 @@ def fake_visibility_result(
     It is used as a predictable return value in
     tests that require a VisibilityResult.
     """
-    return CustomVisibilityResult(
+    return sdk.VisibilityResult(
         instrument_id=fake_instrument_id,
         visibility_windows=[fake_visibility_window],
     )
@@ -101,7 +100,7 @@ def fake_joint_visibility_result(
     fake_instrument_id: str,
     fake_second_instrument_id: str,
     fake_visibility_window: sdk.VisibilityWindow,
-) -> CustomJointVisibilityResult:
+) -> sdk.JointVisibilityResult:
     """
     Create a fake `sdk.JointVisibilityResult` instance for testing.
 
@@ -110,7 +109,7 @@ def fake_joint_visibility_result(
     It is used as a predictable return value in
     tests that require a JointVisibilityResult.
     """
-    return CustomJointVisibilityResult(
+    return sdk.JointVisibilityResult(
         instrument_ids=[fake_instrument_id, fake_second_instrument_id],
         visibility_windows=[fake_visibility_window],
         observatory_visibility_windows={

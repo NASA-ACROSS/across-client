@@ -6,7 +6,6 @@ import pytest
 
 import across.sdk.v1 as sdk
 from across.client.apis import VisibilityCalculator
-from across.client.apis.tools import CustomJointVisibilityResult, CustomVisibilityResult
 
 
 class TestVisibilityCalculator:
@@ -27,7 +26,7 @@ class TestVisibilityCalculator:
             fake_instrument_id: str,
             fake_coordinate: sdk.Coordinate,
             fake_date_range: sdk.DateRange,
-            fake_visibility_result: CustomVisibilityResult,
+            fake_visibility_result: sdk.VisibilityResult,
         ) -> None:
             """
             Ensure that `VisibilityCalculator.calculate_windows()` returns
@@ -40,8 +39,8 @@ class TestVisibilityCalculator:
                     A mocked `sdk.Coordinate` instance
                 fake_date_range (sdk.DateRange):
                     A mocked `sdk.DateRange` instance
-                fake_visibility_result (CustomVisibilityResut):
-                    A mocked CustomVisibilityResult instance
+                fake_visibility_result (sdk.VisibilityResult):
+                    A mocked sdk.VisibilityResult instance
             """
             visibility_calculator = VisibilityCalculator(across_client=MagicMock())
             result = visibility_calculator.calculate_windows(
@@ -120,7 +119,7 @@ class TestVisibilityCalculator:
             fake_second_instrument_id: str,
             fake_coordinate: sdk.Coordinate,
             fake_date_range: sdk.DateRange,
-            fake_joint_visibility_result: CustomJointVisibilityResult,
+            fake_joint_visibility_result: sdk.JointVisibilityResult,
         ) -> None:
             """
             Ensure that `VisibilityCalculator.calculate_joint_windows()` returns
@@ -135,8 +134,8 @@ class TestVisibilityCalculator:
                     A mocked `sdk.Coordinate` instance
                 fake_date_range (sdk.DateRange):
                     A mocked `sdk.DateRange` instance
-                fake_joint_visibility_result (CustomJointVisibilityResut):
-                    A mocked CustomJointVisibilityResult instance
+                fake_joint_visibility_result (sdk.JointVisibilityResult):
+                    A mocked sdk.JointVisibilityResult instance
             """
             visibility_calculator = VisibilityCalculator(across_client=MagicMock())
             result = visibility_calculator.calculate_joint_windows(
@@ -231,7 +230,7 @@ class TestVisibilityCalculator:
                     Pytest FixtureRequest object to load fixture value.
             """
             fake_visibility_result = request.getfixturevalue(visibility_result)
-            fig = fake_visibility_result.plot()
+            fig = VisibilityCalculator.plot_visibility_windows(fake_visibility_result)
 
             assert isinstance(fig, go.Figure)
 
@@ -254,7 +253,7 @@ class TestVisibilityCalculator:
             """
             fake_visibility_result = request.getfixturevalue(visibility_result)
             my_fig = go.Figure()
-            fig = fake_visibility_result.plot(fig=my_fig)
+            fig = VisibilityCalculator.plot_visibility_windows(fake_visibility_result, fig=my_fig)
 
             assert fig is my_fig
 
@@ -278,7 +277,9 @@ class TestVisibilityCalculator:
             fake_visibility_result = request.getfixturevalue(visibility_result)
             width = 100
             height = 200
-            fig = fake_visibility_result.plot(width=width, height=height)
+            fig = VisibilityCalculator.plot_visibility_windows(
+                fake_visibility_result, width=width, height=height
+            )
 
             assert all([fig.layout.width == width, fig.layout.height == height])
 
@@ -303,7 +304,7 @@ class TestVisibilityCalculator:
 
             end = datetime(2026, 4, 1, 1, 0, 0)
             begin = datetime(2026, 4, 1, 0, 0, 0)
-            fig = fake_visibility_result.plot(begin=begin, end=end)
+            fig = VisibilityCalculator.plot_visibility_windows(fake_visibility_result, begin=begin, end=end)
 
             assert all(
                 [
@@ -314,80 +315,86 @@ class TestVisibilityCalculator:
 
         def test_plot_should_set_x_tick_label(
             self,
-            fake_visibility_result: CustomVisibilityResult,
+            fake_visibility_result: sdk.VisibilityResult,
         ) -> None:
             """
             Should set the windows' x-axis tick to passed-in name
 
             Args:
-                fake_visibility_result (CustomVisibilityResut):
-                    A mocked CustomVisibilityResult instance
+                fake_visibility_result (sdk.VisibilityResult):
+                    A mocked sdk.VisibilityResult instance
             """
             name = "My Observatory"
-            fig = fake_visibility_result.plot(observatory_name=name)
+            fig = VisibilityCalculator.plot_visibility_windows(fake_visibility_result, observatory_name=name)
 
             assert fig.layout.xaxis.ticktext[0] == name
 
         def test_plot_should_set_window_x_offset(
             self,
-            fake_visibility_result: CustomVisibilityResult,
+            fake_visibility_result: sdk.VisibilityResult,
         ) -> None:
             """
             Should set the windows' x-axis offset when passed as an arg
 
             Args:
-                fake_visibility_result (CustomVisibilityResut):
-                    A mocked CustomVisibilityResult instance
+                fake_visibility_result (sdk.VisibilityResult):
+                    A mocked sdk.VisibilityResult instance
             """
             offset = 10
-            fig = fake_visibility_result.plot(offset=offset)
+            fig = VisibilityCalculator.plot_visibility_windows(fake_visibility_result, offset=offset)
 
             assert fig.layout.xaxis.tickvals[0] == offset
 
         def test_plot_joint_visibility_should_set_x_tick_labels(
             self,
-            fake_joint_visibility_result: CustomJointVisibilityResult,
+            fake_joint_visibility_result: sdk.JointVisibilityResult,
         ) -> None:
             """
             Should set the windows' x-axis ticks to passed-in names
 
             Args:
-                fake_joint_visibility_result (CustomJointVisibilityResut):
-                    A mocked CustomJointVisibilityResult instance
+                fake_joint_visibility_result (sdk.JointVisibilityResult):
+                    A mocked sdk.JointVisibilityResult instance
             """
             names = ["Observatory 1", "Observatory 2"]
-            fig = fake_joint_visibility_result.plot(observatory_names=names)
+            fig = VisibilityCalculator.plot_joint_visibility_windows(
+                fake_joint_visibility_result, observatory_names=names
+            )
 
             assert fig.layout.xaxis.ticktext == tuple(names)
 
         def test_plot_joint_visibility_should_set_window_x_offset(
             self,
-            fake_joint_visibility_result: CustomJointVisibilityResult,
+            fake_joint_visibility_result: sdk.JointVisibilityResult,
         ) -> None:
             """
             Should set the windows' x-axis offset when passed as an arg
 
             Args:
-                fake_joint_visibility_result (CustomJointVisibilityResut):
-                    A mocked CustomJointVisibilityResult instance
+                fake_joint_visibility_result (sdk.JointVisibilityResult):
+                    A mocked sdk.JointVisibilityResult instance
             """
             offset = 10
-            fig = fake_joint_visibility_result.plot(offset=offset)
+            fig = VisibilityCalculator.plot_joint_visibility_windows(
+                fake_joint_visibility_result, offset=offset
+            )
 
             assert fig.layout.xaxis.tickvals == (offset + 0 + 1, offset + 1 + 1)
 
         def test_plot_joint_visibility_should_set_name_to_none_if_not_provided(
             self,
-            fake_joint_visibility_result: CustomJointVisibilityResult,
+            fake_joint_visibility_result: sdk.JointVisibilityResult,
         ) -> None:
             """
             Should set the windows' x-axis tick to None if not passed in
 
             Args:
-                fake_joint_visibility_result (CustomJointVisibilityResut):
-                    A mocked CustomJointVisibilityResult instance
+                fake_joint_visibility_result (sdk.JointVisibilityResult):
+                    A mocked sdk.JointVisibilityResult instance
             """
             names = ["Observatory 1"]
-            fig = fake_joint_visibility_result.plot(observatory_names=names)
+            fig = VisibilityCalculator.plot_joint_visibility_windows(
+                fake_joint_visibility_result, observatory_names=names
+            )
 
             assert fig.layout.xaxis.ticktext == (names[0], None)
