@@ -38,18 +38,7 @@ class Instrument:
             sdk.Instrument:
                 The requested Instrument object.
         """
-        sdk_instrument = sdk.InstrumentApi(self.across_client).get_instrument(instrument_id=id)
-        return sdk.Instrument(
-            id=sdk_instrument.id,
-            created_on=sdk_instrument.created_on,
-            name=sdk_instrument.name,
-            short_name=sdk_instrument.short_name,
-            telescope=sdk_instrument.telescope,
-            footprints=sdk_instrument.footprints,
-            filters=sdk_instrument.filters,
-            constraints=sdk_instrument.constraints,
-            visibility_type=sdk_instrument.visibility_type,
-        )
+        return sdk.InstrumentApi(self.across_client).get_instrument(instrument_id=id)
 
     def get_many(
         self,
@@ -75,26 +64,12 @@ class Instrument:
             list[sdk.Instrument]:
                 A list of instruments matching the given filters.
         """
-        sdk_instruments = sdk.InstrumentApi(self.across_client).get_instruments(
+        return sdk.InstrumentApi(self.across_client).get_instruments(
             name=name,
             telescope_name=telescope_name,
             telescope_id=telescope_id,
             created_on=created_on,
         )
-        return [
-            sdk.Instrument(
-                id=sdk_instrument.id,
-                created_on=sdk_instrument.created_on,
-                name=sdk_instrument.name,
-                short_name=sdk_instrument.short_name,
-                telescope=sdk_instrument.telescope,
-                footprints=sdk_instrument.footprints,
-                filters=sdk_instrument.filters,
-                constraints=sdk_instrument.constraints,
-                visibility_type=sdk_instrument.visibility_type,
-            )
-            for sdk_instrument in sdk_instruments
-        ]
 
     @staticmethod
     def plot_footprint(
