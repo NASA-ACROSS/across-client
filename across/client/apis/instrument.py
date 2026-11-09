@@ -1,7 +1,11 @@
 from datetime import datetime
 
+import plotly.graph_objects as go
+
 import across.sdk.v1 as sdk
 from across.sdk.v1.api_client_wrapper import ApiClientWrapper
+from across.tools.core.plotting import plot_footprint
+from across.tools.core.schemas import Coordinate, Polygon
 
 
 class Instrument:
@@ -66,3 +70,65 @@ class Instrument:
             telescope_id=telescope_id,
             created_on=created_on,
         )
+
+    @staticmethod
+    def plot_footprint(
+        instrument: sdk.Instrument,
+        fig: go.Figure | None = None,
+        name: str | None = None,
+        color: str | None = None,
+        lat_axis_tick: int = 30,
+        lon_axis_tick: int = 60,
+    ) -> go.Figure:
+        """
+        Method to plot the footprint using plotly.
+        Calls the across-tools plotting core functionality and configures the plot
+        layout to user specifications.
+
+        Parameters
+        ----------
+        instrument: sdk.Instrument
+            The instrument whose footprint is to be plotted
+        fig : go.Figure, optional
+            An existing plotly figure to add the footprint to, by default None
+        name : str | None, optional
+            The name to assign to the detector traces, by default None
+        color : str | None, optional
+            The color to assign to the detector traces, by default None
+        lat_axis_tick : int, optional
+            The latitude axis tick interval, by default 30
+        lon_axis_tick : int, optional
+            The longitude axis tick interval, by default 60
+        Returns
+        -------
+        go.Figure
+            The plotly figure containing the footprint plot
+        """
+        if fig is None:
+            fig = go.Figure()
+            fig.update_layout(
+                title="Footprint Visualization",
+                geo=dict(
+                    projection_type="mollweide",
+                    showland=False,
+                    showcountries=False,
+                    showcoastlines=False,
+                    lataxis=dict(showgrid=True, dtick=lat_axis_tick),
+                    lonaxis=dict(showgrid=True, dtick=lon_axis_tick),
+                ),
+            )
+
+        if instrument.footprints is not None:
+            detectors = []
+            for footprint in instrument.footprints:
+                coordinates = [Coordinate(ra=coord.x, dec=coord.y) for coord in footprint]
+                detectors.append(Polygon(coordinates=coordinates))
+
+            fig = plot_footprint(
+                detectors=[detector.model_dump() for detector in detectors],
+                name=name if name is not None else instrument.name,
+                fig=fig,
+                color=color,
+            )
+
+        return fig
