@@ -17,10 +17,9 @@ class Config(BaseConfig):
     Core configuration for across.client
     """
 
-    ACROSS_SERVER_HOST: str = "https://api.across.sciencecloud.nasa.gov"
-    ACROSS_SERVER_PORT: str = ""
-    ACROSS_SERVER_ROOT_PATH: str = "/"
-    ACROSS_SERVER_VERSION: str = "v1"
+    ACROSS_SERVER_HOST: str = "https://science.data.nasa.gov"
+    ACROSS_SERVER_ROOT_PATH: str = "/across/api"
+    ACROSS_SERVER_VERSION: str = "/v1"
     ACROSS_SERVER_ID: str | None = None
     ACROSS_SERVER_SECRET: str | None = None
 
@@ -31,9 +30,6 @@ class Config(BaseConfig):
             self.ACROSS_SERVER_ROOT_PATH,
             self.ACROSS_SERVER_VERSION,
         ]
-
-        if self.ACROSS_SERVER_PORT:
-            parts.insert(1, f":{self.ACROSS_SERVER_PORT}")
 
         url = "".join(parts)
 
