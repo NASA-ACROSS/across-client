@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.4.0](https://github.com/NASA-ACROSS/across-client/compare/v1.3.0...v1.4.0) (2026-11-23)
+
+
+### Features
+
+* add plotting of instrument footprints and visibility windows ([#51](https://github.com/NASA-ACROSS/across-client/issues/51)) ([3ac79d1](https://github.com/NASA-ACROSS/across-client/commit/3ac79d11e0a06b1440f59dd7ac022bae0d1b2eb0))
+
 ## [1.3.0](https://github.com/NASA-ACROSS/across-client/compare/v1.2.0...v1.3.0) (2026-07-20)
 
 
